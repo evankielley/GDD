@@ -29,4 +29,4 @@ for fileName in names:
     l=l+1
 
 plt.show()
-fig.savefig('CumulativeGDD.png')
+fig.savefig('./Plots/CumulativeGDD.png')
