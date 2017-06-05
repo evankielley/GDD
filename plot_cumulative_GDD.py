@@ -13,7 +13,7 @@ for name in names:
     plt.axes(axs[l]) #,axes='tight')
     
     plotData=pd.read_csv('2015_'+name+'_gdd.csv')    
-    plt.plot(plotData)
+    plt.plot(plotData['GDD'])
     plt.title(name)
     plt.xlabel('t')
     plt.ylabel('Cumulative GDD')
