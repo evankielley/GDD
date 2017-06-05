@@ -25,7 +25,7 @@ for fileName in names:
 
 plt.title('Cumulative GDD')
 plt.legend(labels)
-plt.xlabel('days')
+plt.xlabel('Days')
 plt.ylabel('Cumulative GDD')
 
     

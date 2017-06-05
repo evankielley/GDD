@@ -1,8 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-%matplotlib inline
-%cd ./GDD
 figure=plt.figure(num=1,figsize=(16,4))
 days=np.arange(365)
 
