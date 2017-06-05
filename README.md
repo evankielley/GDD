@@ -15,3 +15,4 @@
 * Implement your entire workflow as a Makefile
 * Create a test suite.
 * Your project should include adequate documentation both with your source code and an overall project Readme.md file to explain how to use/build your project
+test
