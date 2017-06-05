@@ -11,9 +11,9 @@ for file in os.listdir("."):
         names.append(file)
 
 
-plt.figure(1,figsize(5,5))
+plt.figure(1)
 plt.subplot(111)
-plt.figure(2,figsize(5,5))
+plt.figure(2)
 plt.subplot(313)
 
 l=1
@@ -22,12 +22,12 @@ for fileName in names:
     
     plotData=pd.read_csv(fileName)
 # figure 1
-    plt.figure(1)
+    plt.figure(1,,figsize(5,5))
     plt.plot(plotData['GDD'])
     labels.append(fileName.split('_')[1])
 
 # figure 2
-    plt.figure(2)
+    plt.figure(2,,figsize(5,5))
     plt.subplot(3,1,l)
     plt.plot(plotData['MaxTemp'],'r',label='max')
     plt.plot(plotData['MinTemp'],'b',label='min')
