@@ -1,9 +1,9 @@
-## Project Documentation
+# Project Documentation
 
-# Build
+## Build
 * Add info about makefile
 
-# Task 1
+## Task 1
 * The data was retrieved from http://climate.weather.gc.ca on Jun 5th, 2017, containing the annual temperatures of 2015 for 3 cities in Canada: Montreal, Victoria and Ottawa (downloaded as 2015_city_temp.csv files).
 * These .csv files contain extra information that are not used in this task. Therefore, we created a script file called gdd.py to run the data from the .csv files into more readable and useful information for the plots, thus containing only the days, min/max daily temperatures and the cumulative GDD (growing degree days) calculated for each city. These files were then named 2015_city_gdd.csv. The data obtained was used to create plots showing the annual cycle of min/max daily temperatures for each city and the GDD for example. The files obtained when using the gdd.py script were also used to calculate the GDD by calling the 'tbase' and 'tupper' as arguments. 
   * $ gdd temperatures.csv tbase tupper
@@ -20,4 +20,8 @@
 * Implement your entire workflow as a Makefile - this will be in the begining 
 * Create a test suite.
 
-test
+## Task 2
+
+## Final Task
+
+
