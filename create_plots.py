@@ -11,9 +11,9 @@ for file in os.listdir("."):
         names.append(file)
 
 
-plt.figure(1)
+plt.figure(1,figsize(5,5))
 plt.subplot(111)
-plt.figure(2)
+plt.figure(2,figsize(5,5))
 plt.subplot(313)
 
 l=1
