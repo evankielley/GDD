@@ -28,6 +28,8 @@ plt.plot(days,min_temp1,'r-',label='Otawamin')
 plt.plot(days,min_temp2,'b-',label='Montrealmin')
 plt.plot(days,min_temp3,'k-',label='Victoriamin')
 plt.title('Three Cities Min Temp')
+plt.xlabel('Days')
+plt.ylabel('Temperature °C)
 plt.legend()
 plt.savefig('Plots/CompareMaxMinTemp.png')
 
@@ -39,22 +41,28 @@ max_temp = data1['MaxTemp']
 min_temp = data1['MinTemp']
 plt.plot(days,max_temp,'r.-',label='max')
 plt.plot(days,min_temp,'y-',label='min')
+plt.xlabel('Days')
+plt.ylabel('Temperature °C)
 plt.legend()
-plt.title('OttawaTemp')
+plt.title('Ottawa Temperature')
 
 plt.subplot(132)
 max_temp = data2['MaxTemp']
 min_temp = data2['MinTemp']
 plt.plot(days,max_temp,'b.-',label='max')
 plt.plot(days,min_temp,'c-',label='min')
+plt.xlabel('Days')
+plt.ylabel('Temperature °C)
 plt.legend()
-plt.title('MontrealTemp')
+plt.title('Montreal Temperature')
 
 plt.subplot(133)
 max_temp = data3['MaxTemp']
 min_temp = data3['MinTemp']
 plt.plot(days,max_temp,'k.-',label='max')
 plt.plot(days,min_temp,'g-',label='min')
+plt.xlabel('Days')
+plt.ylabel('Temperature °C)
 plt.legend()
-plt.title('VictoriaTemp')
+plt.title('Victoria Temperature')
 plt.savefig('Plots/ThreeCitiesAnnualTemp.png')
