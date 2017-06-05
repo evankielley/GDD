@@ -20,13 +20,13 @@ for fileName in names:
     plt.axes(axs[l]) #,axes='tight')
     
     plotData=pd.read_csv(fileName)    
-    plt.plot(plotData['Date'],plotData['GDD'])
+    plt.plot(plotData['GDD'])
     plt.title(fileName.split('_')[1])
-    plt.xlabel('t')
+    plt.xlabel('days')
     plt.ylabel('Cumulative GDD')
 
     
     l=l+1
 
 plt.show()
-fig.savefig('./Plots/CumulativeGDD.png')
+fig.savefig('CumulativeGDD.png')
