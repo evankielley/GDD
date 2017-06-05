@@ -12,24 +12,24 @@ for file in os.listdir("."):
         names.append(file)
 
         
-fig, axs = plt.subplots(nrows=1, ncols=3,figsize=(15,5))
+fig, axs = plt.subplots(nrows=1, ncols=1,figsize=(15,5))
 l=0
 labels=[]
 for fileName in names:
 
-    plt.axes(axs[l]) #,axes='tight')
     
     plotData=pd.read_csv(fileName)    
     plt.plot(plotData['GDD'])
-    labels.append(fileName.split('_')[1]))
-    
+    labels.append(fileName.split('_')[1])
+    l=l+1
+
 plt.title('Cumulative GDD')
-plt.label(labels)
+plt.legend(labels)
 plt.xlabel('days')
 plt.ylabel('Cumulative GDD')
 
     
-    l=l+1
+    
 
 plt.show()
-fig.savefig('CumulativeGDD.png')
+fig.savefig('./Plots/CumulativeGDD.png')
