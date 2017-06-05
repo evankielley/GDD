@@ -1,20 +1,27 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib
 from matplotlib import pylab as plt
 
-names=['Ottawa','Victoria','Montreal']
+#names=['Ottawa','Victoria','Montreal']
+names=[]
 
+for file in os.listdir("."):
+    if file.endswith("gdd.csv"):
+        names.append(file)
+
+        
 fig, axs = plt.subplots(nrows=1, ncols=3,figsize=(15,5))
 l=0
 
-for name in names:
+for fileName in names:
 
     plt.axes(axs[l]) #,axes='tight')
     
-    plotData=pd.read_csv('2015_'+name+'_gdd.csv')    
-    plt.plot(plotData['GDD'])
-    plt.title(name)
+    plotData=pd.read_csv(fileName)    
+    plt.plot(plotData)
+    plt.title(fileName.split('_')[1])
     plt.xlabel('t')
     plt.ylabel('Cumulative GDD')
 
