@@ -14,7 +14,7 @@ for file in os.listdir("."):
 plt.figure(1)
 plt.subplot(111)
 plt.figure(2)
-plt.subplot(133)
+plt.subplot(313)
 
 l=1
 labels=[]
@@ -28,7 +28,7 @@ for fileName in names:
 
 # figure 2
     plt.figure(2)
-    plt.subplot(1,3,l)
+    plt.subplot(3,1,l)
     plt.plot(plotData['MaxTemp'],'r',label='max')
     plt.plot(plotData['MinTemp'],'b',label='min')
     plt.title(fileName.split('_')[1])
