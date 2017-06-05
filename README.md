@@ -12,7 +12,7 @@
 
 * Create plots showing accumulated GDD vs time for selected cities like: 
 - add our plot
-![alt text](GDD/Plots/CumulativeGDD.png)
+![alt text](https://github.com/evankielley/GDD/blob/master/Plots/CumulativeGDD.png)
 * LaTeX report
 * Web based presenation
   * include the HTML link
