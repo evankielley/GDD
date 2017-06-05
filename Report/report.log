@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.19)  5 JUN 2017 14:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.19)  5 JUN 2017 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -319,7 +319,11 @@ or enter new name. (Default extension: sty)
 
 Enter file name: 
 \c@theorem=\count111
-(./report.aux)
+(./report.aux
+
+LaTeX Warning: Label `GDDplot' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
@@ -404,12 +408,19 @@ Overfull \hbox (31.13162pt too wide) in paragraph at lines 58--58
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<../Plots/CumulativeGDD.png, id=38, 1084.05pt x 361.35pt>
+<../Plots/CumulativeGDD.png, id=43, 578.16pt x 433.62pt>
 File: ../Plots/CumulativeGDD.png Graphic file (type png)
 
 <use ../Plots/CumulativeGDD.png>
-Package pdftex.def Info: ../Plots/CumulativeGDD.png used on input line 89.
-(pdftex.def)             Requested size: 350.99762pt x 116.99626pt.
+Package pdftex.def Info: ../Plots/CumulativeGDD.png used on input line 93.
+(pdftex.def)             Requested size: 350.99762pt x 263.24406pt.
+
+<../Plots/CompareMaxMinTemp.png, id=45, 578.16pt x 433.62pt>
+File: ../Plots/CompareMaxMinTemp.png Graphic file (type png)
+
+<use ../Plots/CompareMaxMinTemp.png>
+Package pdftex.def Info: ../Plots/CompareMaxMinTemp.png used on input line 99.
+(pdftex.def)             Requested size: 350.99762pt x 263.24406pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -417,35 +428,40 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
- [3 <../Plots/CumulativeGDD.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
+[2] [3 <../Plots/CumulativeGDD.png>] [4 <../Plots/CompareMaxMinTemp.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 107.
+
+[5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 107.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 97.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 107.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 107.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 6E7D4EAA80DD0123165E42FE0E852B95;286.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
+(rerunfilecheck)             Checksum: C4F17799B295AA5B9ADE581C46A0DEEC;331.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 107.
  ) 
 Here is how much of TeX's memory you used:
- 6649 strings out of 494953
- 94546 string characters out of 6180977
- 181973 words of memory out of 5000000
- 9829 multiletter control sequences out of 15000+600000
+ 6659 strings out of 494953
+ 94746 string characters out of 6180977
+ 182012 words of memory out of 5000000
+ 9834 multiletter control sequences out of 15000+600000
  13102 words of font info for 50 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 29i,10n,43p,239b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,10n,43p,239b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (3 pages, 140144 bytes).
+Output written on report.pdf (5 pages, 221532 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 95 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
+ 15 named destinations out of 1000 (max. 500000)
+ 59 words of extra memory for PDF output out of 10000 (max. 10000000)
 

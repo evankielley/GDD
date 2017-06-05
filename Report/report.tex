@@ -55,14 +55,16 @@
 \begin{document}
 
 \maketitle
-\vspace{50pt}
+\vspace{5pt}
 \tableofcontents
+\vspace{40pt}
 
-\pagebreak
 \section{Motivation}
 We want to use Python and Bash scripts to analyse growing degree days for cities
 in Canada. Growing degree days are used to predict when a flower or plant will 
 bloom. 
+
+\pagebreak
 \section{Minimum core tasks}
 
 \subsection{Files and Scripts}
@@ -77,10 +79,9 @@ bloom.
 \item Output: year\_cityName\_gdd.csv
 \item what it does...
 
-\item[temperature\_plot.py]
 
-\item[plot\_cumulative\_GDD.py]
-\item Output: CumulativeGDD.png
+\item[create\_plots.py]
+\item Output: CumulativeGDD.png, CompareMaxMinTemp.png
 \item Searches for all \emph{year\_cityName\_gdd.csv} files and generates a subplot for
 each city. Then saves the generated plot into a PNG-file.
 \end{description}
@@ -90,7 +91,13 @@ each city. Then saves the generated plot into a PNG-file.
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{../Plots/CumulativeGDD.png} 
-		\caption{\scriptsize Shows the accumulated GDD vs time for three selected cities}\label{GDDplot}		  
+		\caption{\scriptsize Shows the accumulated GDD vs time for three selected cities.}\label{GDDplot}		  
+	\end{figure}
+
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.9\textwidth]{../Plots/CompareMaxMinTemp.png} 
+		\caption{\scriptsize Shows the min and max temperature for three selected cities.}\label{GDDplot}		  
 	\end{figure}
 
 \pagebreak
