@@ -22,12 +22,12 @@ for fileName in names:
     
     plotData=pd.read_csv(fileName)
 # figure 1
-    plt.figure(1,,figsize(5,5))
+    plt.figure(1)
     plt.plot(plotData['GDD'])
     labels.append(fileName.split('_')[1])
 
 # figure 2
-    plt.figure(2,,figsize(5,5))
+    plt.figure(2)
     plt.subplot(3,1,l)
     plt.plot(plotData['MaxTemp'],'r',label='max')
     plt.plot(plotData['MinTemp'],'b',label='min')
