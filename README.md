@@ -1,7 +1,7 @@
 # GDD
 
 # Task 1
-* Data: http://climate.weather.gc.ca 
+* Data retrieved from http://climate.weather.gc.ca on Jun 5th, 2017. Data regarding the annual temperature of 2015 for 3 cities in Canada: Montreal, Victoria and Ottawa downloaded in .csv files.
 * Create a plot showing an annual cycle of min/max daily temperatures. For 3 cities.
 * Commandline progarm:
   * $ gdd temperatures.csv tbase tupper
