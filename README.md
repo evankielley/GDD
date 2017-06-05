@@ -11,7 +11,6 @@
 * The script **Temperature_plots.py** was used to create the plots for max and min temperatures for each city (figures are found in Plots folder named 'ThreeCitiesAnnualTemp'). We also compared the temperatures for all cities represented in one graph of min and other graph for the max temperatures (figures are found in Plots folder named 'CompareMaxMinTemp'). Moreover, the accumulate GDD is shown in one plot for the 3 cities (also found in Plots folder, figure named CumulativeGDD).
 
 * Create plots showing accumulated GDD vs time for selected cities like: 
-- add our plot
 ![alt text](https://github.com/evankielley/GDD/blob/master/Plots/CumulativeGDD.png)
 * LaTeX report
 * Web based presenation
