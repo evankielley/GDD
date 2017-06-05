@@ -16,6 +16,8 @@ max_temp3 = data3['MaxTemp']
 plt.plot(days,max_temp1,'r.-',label='Ottawamax')
 plt.plot(days,max_temp2,'b.-',label='Montrealmax')
 plt.plot(days,max_temp3,'k.-',label='Victoriamax')
+plt.xlabel('Days')
+plt.ylabel('Temperature °C')
 plt.title('Three Cities Max Temp')
 plt.legend()
 
