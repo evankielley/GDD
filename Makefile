@@ -11,7 +11,8 @@ report.pdf: plot
 plot: gdd
 	python Scripts/create_plots.py
 
-gdd:  
+gdd:
+	@mkdir Output/  
 	python Scripts/gdd.py $(TBASE) $(TUPPER) $(EXAMPLEDATA)
 
 #data.csv:
@@ -48,4 +49,4 @@ gdd:
 clean:
 	rm -f Report/report.log Report/report.aux Report/report.pdf Report/report.out Report/report.toc
 	rm -f report.log report.aux report.pdf report.out report.toc
-	rm -f Output/*gdd.csv Output/report* Output/*.png
+	rm -rf Output/
