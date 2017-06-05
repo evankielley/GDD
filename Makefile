@@ -1,6 +1,6 @@
 TBASE = 10
 TUPPER = 30
-EXAMPLEDATA = ./
+EXAMPLEDATA = ../Input/
 
 all: report.pdf
 
@@ -8,10 +8,10 @@ report.pdf: plot
 	pdflatex Report/report.tex 
 
 plot: gdd
-	python create_plots.py
+	python Scripts/create_plots.py
 
 gdd:  
-	python gdd.py $(TBASE) $(TUPPER) $(EXAMPLEDATA)
+	python Scripts/gdd.py $(TBASE) $(TUPPER) $(EXAMPLEDATA)
 
 #data.csv:
 #	curl -o data.csv http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=50089&Year=2016&timeframe=2&submit=Download+Data
@@ -47,5 +47,5 @@ gdd:
 clean:
 	rm -f Report/report.log Report/report.aux Report/report.pdf Report/report.out Report/report.toc
 	rm -f report.log report.aux report.pdf report.out report.toc
-	rm -f Plot/*
-	rm -f *gdd.csv
+	#rm -f Plot/*
+	rm -f Output/*gdd.csv

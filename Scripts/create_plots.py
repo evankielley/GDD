@@ -1,15 +1,13 @@
 import os
-import numpy as np
 import pandas as pd
 import matplotlib
 from matplotlib import pylab as plt
 
 names=[]
 
-for file in os.listdir("."):
+for file in os.listdir("./Output"):
     if file.endswith("gdd.csv"):
         names.append(file)
-
 
 plt.figure(1)
 plt.subplot(111)
@@ -42,9 +40,5 @@ plt.legend(labels)
 plt.xlabel('Days')
 plt.ylabel('Cumulative GDD')
     
-#plt.figure(1)
-#plt.show()
-
-plt.figure(1).savefig('./Plots/CumulativeGDD.png')
-plt.figure(2).savefig('./Plots/CompareMaxMinTemp.png')
-
+plt.figure(1).savefig('./Output/CumulativeGDD.png')
+plt.figure(2).savefig('./Output/CompareMaxMinTemp.png')
