@@ -5,7 +5,8 @@ EXAMPLEDATA = ../Input/
 all: report.pdf
 
 report.pdf: plot
-	pdflatex Report/report.tex 
+	pdflatex Report/report.tex
+	@mv report.* Output/ 
 
 plot: gdd
 	python Scripts/create_plots.py
@@ -47,5 +48,4 @@ gdd:
 clean:
 	rm -f Report/report.log Report/report.aux Report/report.pdf Report/report.out Report/report.toc
 	rm -f report.log report.aux report.pdf report.out report.toc
-	#rm -f Plot/*
-	rm -f Output/*gdd.csv
+	rm -f Output/*gdd.csv Output/report* Output/*.png
