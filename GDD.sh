@@ -1,3 +1,2 @@
 #! /bin/bash
-echo "First arg: $1"
-echo "Second arg: $2"
+python gdd.py $1 $2
