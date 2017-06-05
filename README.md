@@ -1,4 +1,4 @@
-# Project Documentation
+## Project Documentation
 
 # Build
 * Add info about makefile
