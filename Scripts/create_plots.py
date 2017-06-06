@@ -1,11 +1,12 @@
-import os
+import sys,os
 import pandas as pd
 import matplotlib
 from matplotlib import pylab as plt
 
 names=[]
+path = os.path.abspath("../GDD/Output")
 
-for file in os.listdir("./Output"):
+for file in os.listdir(path):
     if file.endswith("gdd.csv"):
         names.append(file)
 
@@ -18,7 +19,7 @@ l=1
 labels=[]
 for fileName in names:
     
-    plotData=pd.read_csv(fileName)
+    plotData=pd.read_csv(path +'/'+ fileName)
 # figure 1
     plt.figure(1)
     plt.plot(plotData['GDD'])
