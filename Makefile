@@ -1,6 +1,6 @@
 TBASE = 10
 TUPPER = 30
-INPUT = ../Input/
+INPUT = ./Input/
 OUTPUT = ./Output/
 SCRIPTS = ./Scripts/
 

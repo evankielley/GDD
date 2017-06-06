@@ -8,7 +8,7 @@ if(len(sys.argv) == 3):
     parser.add_argument("tbase", type=int)
     parser.add_argument("tupper", type=int)
     args = parser.parse_args()
-    inputFolder = './'
+    inputFolder = '../Input'
 # If folder for input data is specified
 elif(len(sys.argv) == 4):
     parser = argparse.ArgumentParser()
@@ -44,4 +44,4 @@ for inputFileName in filesList:
     data.columns = ['Date', 'MinTemp', 'MaxTemp', 'GDD']
     # forming new file name using the same template
     outputFileName = inputFileName[:-8]+"gdd.csv"
-    data.to_csv(outputFileName)
+    data.to_csv('./Output/' + outputFileName[8:])
