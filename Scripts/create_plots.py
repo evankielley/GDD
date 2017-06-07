@@ -4,16 +4,18 @@ import matplotlib
 from matplotlib import pylab as plt
 
 names=[]
-path = os.path.abspath("../GDD/Output")
+path = os.path.abspath("../GDD/Input")
 
 for file in os.listdir(path):
     if file.endswith("gdd.csv"):
         names.append(file)
 
+n=len(names)
+
 plt.figure(1)
 plt.subplot(111)
 plt.figure(2)
-plt.subplot(313)
+#plt.subplot(n,1,n)
 
 l=1
 labels=[]
@@ -27,9 +29,10 @@ for fileName in names:
 
 # figure 2
     plt.figure(2)
-    plt.subplot(3,1,l)
+    plt.subplot(n,1,l)
     plt.plot(plotData['MaxTemp'],'r',label='max')
     plt.plot(plotData['MinTemp'],'b',label='min')
+    plt.legend()
     plt.title(fileName.split('_')[1])
     plt.xlabel('Days')
     plt.ylabel('Temperature')
