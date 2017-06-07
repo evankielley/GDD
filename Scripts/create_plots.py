@@ -4,7 +4,7 @@ import matplotlib
 from matplotlib import pylab as plt
 
 names=[]
-path = os.path.abspath("../GDD/Input")
+path = os.path.abspath("./Output")
 
 for file in os.listdir(path):
     if file.endswith("gdd.csv"):
