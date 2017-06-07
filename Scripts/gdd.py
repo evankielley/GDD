@@ -11,7 +11,7 @@ if(len(sys.argv) == 3):
     parser.add_argument("tbase", type=int)
     parser.add_argument("tupper", type=int)
     args = parser.parse_args()
-    inputFolder = '../Input/'
+    inputFolder = './Input/'
 # If folder for input data is specified
 elif(len(sys.argv) == 4):
     parser = argparse.ArgumentParser()
@@ -25,9 +25,9 @@ else:
     pass
     # print("Wrong number of arguments")
     # sys.exit()
-print(inputFolder)
+#print(inputFolder)
 filesList = glob.glob(inputFolder+"*_temp.csv")
-print(filesList)
+#print(filesList)
 for inputFileName in filesList:
     data=pd.read_csv(inputFileName)
     min_temp = data['Min Temp (°C)']
@@ -43,8 +43,5 @@ for inputFileName in filesList:
     data.columns = ['Date', 'MinTemp', 'MaxTemp', 'GDD']
     # forming new file name using the same template
     outputFileName = inputFileName[:-8]+str(args.tbase)+"_"+str(args.tupper)+"_"+"gdd.csv"
-    print(outputFileName)
-    if(len(sys.argv) == 3):
-        data.to_csv('../Output' + outputFileName[8:])
-    elif(len(sys.argv) == 4):
-        data.to_csv(outputFileName)
+    #print(outputFileName)
+    data.to_csv('./Output' + outputFileName[7:])
