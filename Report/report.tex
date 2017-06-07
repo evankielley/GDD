@@ -3,7 +3,7 @@
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{dsfont}
+%\usepackage{dsfont}
 \usepackage{theorem}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -12,7 +12,7 @@
 \usepackage{verbatim}
 \usepackage{float}
 \usepackage{fancyhdr}
-\usepackage{bigints}
+%\usepackage{bigints}
 \pagestyle{fancy}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -38,6 +38,7 @@
 \newcommand*{\QEDB}{\hfill\ensuremath{\square}}
 
 \newcommand{\dif}{\mbox{d}}
+
 
 %---------------------------------
 %\topmargin -.5 in
@@ -69,35 +70,69 @@ bloom.
 
 \subsection{Files and Scripts}
 \begin{description}
-\item[gdd.sh]
-\item Input: temperatures.csv, tbase, tupper
-\item Output:
-\item What it does... maybe adding code
-
 \item[gdd.py]
-\item Input: tbase, tupper
-\item Output: year\_cityName\_gdd.csv
-\item what it does...
+\item Input: tbase, tupper, input\_folder (optional)
+\item Output: year\_cityName\_tbase\_tupper\_gdd.csv
+\item Searches for files that ends with \emph{temp.csv}. We expect, that these
+files have the columns: Date/Time, Min Temp(${}^\circ$C), Max Temp(${}^\circ$C).
 
+Then these columns of each file will be copied into a new csv file with the name
+\emph{year\_cityName\_tbase\_tupper\_gdd.csv}, where cityName is extracted of the
+current file name. That file will be saved in the folder \emph{Output}.
+After that, a column called GDD will be added. The value of
+cell $n$ is calculated with the formula:
+$$
+\sum_{i=1}^n \big( \tfrac{\text{tmax}_i+\text{tmin}_i}{2}-\text{tbase}\big)
+$$
+If $\text{tmax}_i$ or $\text{tmax}_i$ is bigger than tupper it is set to tupper,
+ also if $\text{tmin}_i$ or $\text{tmax}_i$ 
+is  smaller than tbase then it is set to tbase.
+
+%\item[gdd.sh]
+%\item Input: temperatures.csv, tbase, tupper
+%\item Output:
+%\item What it does... maybe adding code
 
 \item[create\_plots.py]
 \item Output: CumulativeGDD.png, CompareMaxMinTemp.png
-\item Searches for all \emph{year\_cityName\_gdd.csv} files and generates a subplot for
-each city. Then saves the generated plot into a PNG-file.
+\item Searches for files ending with \emph{gdd.csv}. 
+Then reads of each file the max and min temperature column and creatas a subplot
+showing the time line of the max and min temperature. Also reads the GDD column 
+and adds accumulated GDD to another figure. Finally saves the two created figures
+ as PNG-files in the \emph{Plot} folder.
+
 \end{description}
 \subsection{Process flow}
+The following diagramm shows the dependencies and execution steps of the scripts
+we are running.
+\\~\\
+By executing the \emph{Makefile}, we create a folder called \emph{Output} and run
+the python script \emph{gdd.py} with the arguments tbase=10, tupper=30 and the path
+ \emph{./Input/}. This produces 3 csv files, because we have 3 files of the 
+format \emph{year\_cityName\_.csv} in the folder \emph{Input}.
+Next the script \emph{create\_plots.py} is called by Makefile and produces 2 PNG-
+files. Finally Makefile creates the file \emph{report.pdf} by compiling the 
+\emph{report.tex} file.
 
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.9\textwidth]{diagram_workflow.pdf} 
+		\caption{\scriptsize Shows the process flow of our scirpts.}\label{flowplot}		  
+	\end{figure}
+
+
+\pagebreak
 \subsection{Results}
 	\begin{figure}[!htbp]
 		\centering
-		\includegraphics[width=0.9\textwidth]{./Output/CumulativeGDD.png} 
+		\includegraphics[width=0.9\textwidth]{../Output/CumulativeGDD.png} 
 		\caption{\scriptsize Shows the accumulated GDD vs time for three selected cities.}\label{GDDplot}		  
 	\end{figure}
 
 	\begin{figure}[!htbp]
 		\centering
-		\includegraphics[width=0.9\textwidth]{./Output/CompareMaxMinTemp.png} 
-		\caption{\scriptsize Shows the min and max temperature for three selected cities.}\label{GDDplot}		  
+		\includegraphics[width=0.9\textwidth]{../Output/CompareMaxMinTemp.png} 
+		\caption{\scriptsize Shows the min and max temperature for three selected cities.}\label{MinMaxplot}		  
 	\end{figure}
 
 \pagebreak
