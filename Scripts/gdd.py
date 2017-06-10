@@ -32,8 +32,8 @@ parser.add_argument( "-output_folder", "-of", "-ofolder", type=str,
                      default = "./",
                      help = '''Sets output data folder for gdd.py (default: './')
                                gdd.py will produce output file for each processed input file.
-                               If input file name was '%%_temp.csv' the output file name will be '%%_gdd.csv',
-                               otherwise input file name '%%.*' will be changed to '%%_gdd.csv'.
+                               If input file name was '%%_temp.csv' the output file name will be '%%_<tbase>_<tupper>_gdd.csv',
+                               otherwise input file name '%%.*' will be changed to '%%_<tbase>_<tupper>_gdd.csv'.
                                Output file is in csv format and contains colimns
                                'Year', 'Month', 'Day', 'MinTemp', 'MaxTemp', 'GDD_day', 'GDD' ''')
 # columns names options
