@@ -3,7 +3,7 @@
 * This project aimed to gain experience with computational workflow for a scientific problem in which data was retrived from the Historial Climate Data from the Government of Canada to calculate the growing degree days (GDD) in three cities: Montreal, Ottawa and Victoria. The GDD is a heat index (heat accumulation) that describes the best timing of biological process such as when a crop will reach maturity, when a flower will bloom, or even when animals will migrate. It is calculated through the formula GDD = [(Tmax + Tmin)/2] - Tbase, in which Tmax and Tmin are the daily maximum and minimum temperatures, and Tbase is the base temperature. Calculations where made according to the second method, described in [1].
 
 ## Presentation
-https://evankielley.github.io/GDD/Presentation/presentation.html#1
+* To see our presentation online, just click on this [link](https://evankielley.github.io/GDD/Presentation/presentation.html#1).
  
 ## Build
 * The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
