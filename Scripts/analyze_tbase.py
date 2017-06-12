@@ -50,10 +50,14 @@ for tbase in range(tmin,tmax):
     data = pd.concat([data, df], axis=1, join='inner')
 
 def make_plot(source):
-    source.plot()
-    #plt.plot(source)
+    days = [30,58,89,119,150,180,211,242,272,303,333,364]
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    plt.xticks(days,months)
+    plt.plot(source)
+    #print(source.columns)
+    #plt.legend(['8_GDD','9_GDD','10_GDD','11_GDD'],loc='upper left')
+    plt.legend(source.columns,loc='upper left')
     plt.show()
-    #return plot
 
-print(data)
+#print(data)
 make_plot(data)
