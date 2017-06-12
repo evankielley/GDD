@@ -12,6 +12,7 @@ report.pdf: plot
 
 plot: gdd
 	python $(SCRIPTS)create_plots.py
+	python $(SCRIPTS)nl_effective_gdd.py
 
 gdd:
 	@mkdir Output/
