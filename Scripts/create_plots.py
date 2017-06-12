@@ -28,14 +28,18 @@ for fileName in names:
     labels.append(fileName.split('_')[1])
 
 # figure 2
-    plt.figure(2,figsize=(5,n*15))
+    ax=plt.figure(2,figsize=(5,n*15))
     plt.subplot(n,1,l)
     plt.plot(plotData['MaxTemp'],'r')
     plt.plot(plotData['MinTemp'],'b')
     l=l+1
+#    ax.ylabel.tick_right()
+#    ax2 = ax.twinx()
+#    ax2.set_ylabel(fileName.split('_')[1])
+#    if fileName is names.median:
     plt.ylabel(fileName.split('_')[1])
 plt.xlabel('Days')
-plt.suptitle('Max and Min Temp')
+plt.suptitle('Max and Min Temperature')
 
 plt.figure(1)
 plt.title('Compare GDD')
