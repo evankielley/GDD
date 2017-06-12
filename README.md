@@ -1,4 +1,4 @@
-# :octocat: Growing Degree Days in Canada - Data Project 
+# :octocat: Growing Degree Days in Canada - Data Project :octocat:
 
 * This project aimed to gain experience with computational workflow for a scientific problem in which data was retrived from    the Historial Climate Data from the Government of Canada to calculate the growing degree days (GDD) in three cities: Montreal, Ottawa and Victoria. The GDD is a heat index (heat accumulation) that describes the best timing of biological process such as when a crop will reach maturity, when a flower will bloom, or even when animals will migrate. It is calculated through the formula GDD = [(Tmax + Tmin)/2] - Tbase, in which Tmax and Tmin are the daily maximum and minimum temperatures, and Tbase is the base temperature [1].
 
@@ -35,4 +35,4 @@
 * (1) Growing degree-days: one equation, two interpretations http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1086&context=usdaarsfacpub 
 
 
-:octocat:
+:octocat: Thank you.
