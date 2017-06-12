@@ -28,7 +28,7 @@ for fileName in names:
     labels.append(fileName.split('_')[1])
 
 # figure 2
-    plt.figure(2,figsize=(5,n*15))
+    ax=plt.figure(2,figsize=(5,n*15))
     plt.subplot(n,1,l)
     plt.plot(plotData['MaxTemp'],'r')
     plt.plot(plotData['MinTemp'],'b')
