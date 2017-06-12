@@ -16,7 +16,7 @@
 * The script `create_plots.py` was used to create the plots for max and min temperatures for each city and the accumulated GDD. In the former, we compared the temperatures for the three cities represented in 3 plots of min and max temperatures for each city. Moreover, the accumulate GDD is shown in one plot for the 3 cities. Figures are found in the Outputs folder and named as CompareMaxMinTemp and CumulativeGDD, respectively. 
 
 * The plot below is showing the accumulated GDD vs time for selected cities: 
-![alt text](https://github.com/evankielley/GDD/blob/master/Plots/CumulativeGDD.png)
+![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Output/CumulativeGDD.png?token=Abv3GRtFi3qHnLJFDwGDdtJajOOyqtUZks5ZSBtRwA%3D%3D)
 
 ## LaTex Report
 * The LaTex report generates a PDF file containing the summarized results for this project.
