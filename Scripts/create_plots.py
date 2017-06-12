@@ -36,8 +36,8 @@ for fileName in names:
 #    ax.ylabel.tick_right()
 #    ax2 = ax.twinx()
 #    ax2.set_ylabel(fileName.split('_')[1])
-    if fileName is names.median:
-        plt.ylabel(Temperature)
+#    if fileName is names.median:
+     plt.ylabel(fileName.split('_')[1]+' Temp')
 plt.xlabel('Days')
 plt.suptitle('Max and Min Temperature')
 
