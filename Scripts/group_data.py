@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import glob
+from sklearn import datasets, linear_model
+matplotlib inline
 
 def datalist(file_name):
     data_tmp = pd.read_csv(file_name)
@@ -20,3 +22,6 @@ for file_name in file_list:
     data[year] = pd.DataFrame(data_column, index = index_column)
 
 data.to_csv("./Output/Ottawa_grouped_gdd.csv")
+plt.plot(7_15)
+plt.show()
+regr = linear_model.LinearRegression()
