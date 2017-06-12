@@ -6,26 +6,28 @@
 https://evankielley.github.io/GDD/Presentation/presentation.html#1
  
 ## Build
-* The entire workflow of this project is done by calling 'make all', which runs the Makefile and all the scripts to generate the outputs required for this project. 
+* The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
 
 ## Primary Tasks
 * The data retrieved from http://climate.weather.gc.ca on Jun 5th, 2017, contains the annual temperatures of 2015 for 3 cities in Canada: Montreal, Victoria and Ottawa (downloaded as 2015_city_temp.csv files).
-* The .csv files contain extra information that are not used in this task. Therefore, we created a script file called gdd.py to run the data from the .csv files into more readable and useful information to create the plots, thus containing only the days, min/max daily temperatures and the cumulative GDD (growing degree days) already calculated for each city. These files were then named 2015_city_gdd.csv. The data obtained was used to create plots showing the annual cycle of min/max daily temperatures for each city and the accumulation GDD. The files obtained when using the gdd.py script were also used to calculate the GDD by calling the 'tbase' and 'tupper' as arguments that were set up to be 10 and 30, respectively.  
+* The .csv files contain extra information that are not used in this task. Therefore, we created a script file called `gdd.py` to run the data from the .csv files into more readable and useful information to create the plots, thus containing only the days, min/max daily temperatures and the cumulative GDD (growing degree days) already calculated for each city. These files were then named 2015_city_gdd.csv. The data obtained was used to create plots showing the annual cycle of min/max daily temperatures for each city and the accumulation GDD. The files obtained when using the `gdd.py` script were also used to calculate the GDD by calling the 'tbase' and 'tupper' as arguments that were set up to be 10 and 30, respectively.  
   * $ gdd temperatures.csv tbase tupper
-  * store output
-* The script create_plots.py was used to create the plots for max and min temperatures for each city and the accumulated GDD. In the former, we compared the temperatures for the three cities represented in 3 plots of min and max temperatures for each city. Moreover, the accumulate GDD is shown in one plot for the 3 cities. Figures are found in the Outputs folder and named as CompareMaxMinTemp and CumulativeGDD, respectively. 
+  
+* The script `create_plots.py` was used to create the plots for max and min temperatures for each city and the accumulated GDD. In the former, we compared the temperatures for the three cities represented in 3 plots of min and max temperatures for each city. Moreover, the accumulate GDD is shown in one plot for the 3 cities. Figures are found in the Outputs folder and named as CompareMaxMinTemp and CumulativeGDD, respectively. 
 
-* The plot below is showing hte accumulated GDD vs time for selected cities: 
+* The plot below is showing the accumulated GDD vs time for selected cities: 
 ![alt text](https://github.com/evankielley/GDD/blob/master/Plots/CumulativeGDD.png)
 
 ## LaTex Report
 * The LaTex report generates a PDF file containing the summarized results for this project.
 
 ## Test Suite
-* When running the script test_gdd.py one can test if the calculation for the GDD is working as expected (see Testing folder).
+* When running the script `test_gdd.py` one can test if the calculation for the GDD is working as expected (see Testing folder).
 
 ## Secondary Tasks
-* By running the script bokeh_plots.py, a html file based in our presentation is created. The scripts bokeh_serve_tempy.py and bokeh_serve_gdd.py shows interactively the minimum and maximum temperatures and the cumulative GDD for each capital city in Canada in 2015. To run the last two scripts mentioned, one should type in the bash shell 'bokeh serve --show <script's name>'.
+* *For question 1*: A script called `nl_effective_gdd.py` was created to
+* *For question 3*: Importing `calc_gdd.py` script we created another script called `analyze_tbase.py` to calculate GDD using different base temperatures (Tbase = 8, 9, 11, 12) to show how the cumulative growing degree days changes depending on the base temperature chosen. As
+* *For questions 4 and 5*: By running the script `bokeh_plots.py`, a html file based in our presentation is created. The scripts `bokeh_serve_tempy.py` and `bokeh_serve_gdd.py` shows interactively the minimum and maximum temperatures and the cumulative GDD for each capital city in Canada in 2015. To run the last two scripts mentioned, one should type in the bash shell 'bokeh serve --show <script's name>'.
 
 ## Final Task
 
