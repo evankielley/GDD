@@ -9,10 +9,13 @@ all: report.pdf
 report.pdf: plot
 	pdflatex Report/report.tex
 	@mv report.* $(OUTPUT)
+	rm Output/report.out
+	rm Output/report.log
+	rm Output/report.aux
+	rm Output/report.toc
 
 plot: gdd
 	python $(SCRIPTS)create_plots.py
-	python $(SCRIPTS)nl_effective_gdd.py
 
 gdd:
 	@mkdir Output/
