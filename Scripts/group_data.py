@@ -21,6 +21,11 @@ for file_name in file_list:
     (data_column, index_column, year) = datalist(file_name)
     data[year] = pd.DataFrame(data_column, index = index_column)
 
+
+data.to_csv("./Output/Ottawa_grouped_gdd.csv")
+
+#data2=pd.dataframe('Ottawa_grouped_gdd.csv')    
+    
 x=np.linspace(1990,2015,26)
 y=np.array(z)[-27:-1]
 slope,intercept,r_value,p_value,std_err=stats.linregress(x,y)
