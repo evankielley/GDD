@@ -1,16 +1,20 @@
-def main():
-    city, year = pick_city_and_year()
-    stationID = get_station_id(city, year)
-    print("For {} in the year {} the station id is {}.\n".format(city,year,stationID))
-    
+import os 
+import pandas as pd
 
-def download_data(city,year,stationID,save=False):
+def main():
+    bulk_download('Halifax', 2000, 2002)
+
+def bulk_download(city, startYear, endYear):
+    for year in range(startYear, endYear+1):
+        download_data(city,year)    
+
+def download_data(city, year):
+    stationID = get_station_id(city,year)
+    #dir_path = os.path.dirname(os.path.realpath(__file__))
     month = 1; day = 1; timeframe = 2
     url = "http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID={}&Year={}&Month={}&Day={}&timeframe={}&submit=Download+Data".format(stationID,year,month,day,timeframe)
     data = pd.read_csv(url,skiprows=25)  # 15 for hourly
-    if save:
-        data.to_csv("./Input/"+str(year)+"_"+city_name+"_temp.csv")
-    return data
+    data.to_csv("./Input/"+str(year)+"_"+city+"_temp.csv")
 
 
 def pick_city_and_year():
