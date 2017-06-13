@@ -58,20 +58,33 @@
 \maketitle
 \vspace{5pt}
 \tableofcontents
-\vspace{40pt}
+\vspace{35pt}
 
 \section{Motivation}
-We want to use Python and Bash scripts to analyse growing degree days (GDD) for three different cities in Canada. Growing degree days are used to predict when a flower or plant will bloom. 
-\\ Plants require energy to grow and develop, and some of this energy is in the form of heat. The heat required is expressed as degrees of temperature. Temperature regulates many of the physical and chemical processes within a plant, which in turn control the rate of growth and development toward maturity. 
-\\The amount of heat accumulated during the day, as obtained by subtracting the plant's base temperature from the mean temperature for the day, is termed the degree-day accumulation.
+We want to use Python and Bash scripts to analyse growing degree days (GDD) for 
+three different cities in Canada. Growing degree days are used to predict when a 
+flower or plant will bloom. 
+\\ Plants require energy to grow and develop, and some of this energy is in the 
+form of heat. The heat required is expressed as degrees of temperature. 
+Temperature regulates many of the physical and chemical processes within a 
+plant, which in turn control the rate of growth and development toward maturity. 
+\\The amount of heat accumulated during the day, as obtained by subtracting the
+ plant's base temperature from the mean temperature for the day, is termed the
+ degree-day accumulation.
 \\
 
 
 \pagebreak
-\section{Minimum core tasks}
+
 
 \subsection{Files and Scripts}
 \begin{description}
+\item[calc\_gdd.py]
+\item Input: min\_temp\_vect, max\_temp\_vect, tbase, tupper
+\item Output: (res\_day, res)
+\item Calculates the gdd. %TODO
+
+
 \item[gdd.py]
 \item Input: tbase, tupper, input\_folder (optional)
 \item Output: year\_cityName\_tbase\_tupper\_gdd.csv
@@ -81,7 +94,8 @@ files have the columns: Date/Time, Min Temp(${}^\circ$C), Max Temp(${}^\circ$C).
 Then these columns of each file will be copied into a new csv file with the name
 \emph{year\_cityName\_tbase\_tupper\_gdd.csv}, where cityName is extracted of the
 current file name. That file will be saved in the folder \emph{Output}.
-After that, a column called GDD will be added. The value of
+After that, a column called GDD will be added. 
+The value of
 cell $n$ is calculated with the formula:
 $$
 \sum_{i=1}^n \big( \tfrac{\text{tmax}_i+\text{tmin}_i}{2}-\text{tbase}\big)
@@ -96,7 +110,16 @@ is  smaller than tbase then it is set to tbase.
 %\item What it does... maybe adding code
 
 \item[create\_plots.py]
-\item Output: CumulativeGDD.png, CompareMaxMinTemp.png
+\item Output: CumulativeGDD.png, CompareMaxMinTemp.png, AnalyzeTbase.png, gddMapPlotNL.png
+\item The script consitsts of functions:
+\begin{itemize}
+\item max\_min\_plot(names)
+\item gdd\_plot(names)
+\item analyze\_tbase()
+\item bokeh\_plot\_temp(fname)
+\item bokeh\_plot\_gdd(fname)
+\item map\_plot\_nl\_gdd()
+\end{itemize}
 \item Searches for files ending with \emph{gdd.csv}. 
 Then reads of each file the max and min temperature column and creatas a subplot
 showing the time line of the max and min temperature. Also reads the GDD column 
@@ -118,7 +141,7 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 
 	\begin{figure}[!htbp]
 		\centering
-		\includegraphics[width=0.9\textwidth]{./Report/diagram_workflow.pdf} 
+		\includegraphics[width=0.9\textwidth]{../Report/diagram_workflow.pdf} 
 		\caption{\scriptsize Shows the process flow of our scirpts.}\label{flowplot}		  
 	\end{figure}
 
@@ -127,18 +150,29 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 \subsection{Results}
 	\begin{figure}[!htbp]
 		\centering
-		\includegraphics[width=0.9\textwidth]{./Output/CumulativeGDD.png} 
+		\includegraphics[width=0.9\textwidth]{../Output/CumulativeGDD.png} 
 		\caption{\scriptsize Shows the accumulated GDD vs time for three selected cities.}\label{GDDplot}		  
 	\end{figure}
 
 	\begin{figure}[!htbp]
 		\centering
-		\includegraphics[width=0.9\textwidth]{./Output/CompareMaxMinTemp.png} 
+		\includegraphics[width=0.9\textwidth]{../Output/CompareMaxMinTemp.png} 
 		\caption{\scriptsize Shows the min and max temperature for three selected cities.}\label{MinMaxplot}		  
 	\end{figure}
 
-\pagebreak
-\section{Secondary tasks}
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.9\textwidth]{../Output/gddMapPlotNL.png} 
+		\caption{\scriptsize Shows an interpolated map plot of gdd data.}\label{gddMapNl}		  
+	\end{figure}
+
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.9\textwidth]{../Output/AnalyzeTbase.png} 
+		\caption{\scriptsize Figure shows comparison of different tbase choices.}\label{gddMapNl}		  
+	\end{figure}
+
+
 
 
 \end{document}
