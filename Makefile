@@ -2,17 +2,14 @@ TBASE = 10
 TUPPER = 30
 INPUT = -if ./Input/ -of ./Output/
 OUTPUT = ./Output/
+REPORT = ./Report/
 SCRIPTS = ./Scripts/
 
 all: report.pdf
 
 report.pdf: plot
-	pdflatex Report/report.tex
+	pdflatex $(REPORT)report.tex
 	@mv report.* $(OUTPUT)
-	rm Output/report.out
-	rm Output/report.log
-	rm Output/report.aux
-	rm Output/report.toc
 
 plot: gdd
 	python $(SCRIPTS)create_plots.py
