@@ -9,7 +9,7 @@ from matplotlib.mlab import griddata
 from mpl_toolkits.basemap import Basemap
 from sklearn import datasets, linear_model
 from bokeh.plotting import figure, output_file, save
-from bokeh.models import HoverTool, BoxSelectTool
+from bokeh.models import HoverTool, BoxSelectTool,ColumnDataSource,DataRange1d,Select
 
 def main():
     global path, names, days, months
@@ -22,6 +22,7 @@ def main():
     days = [0,30,58,89,119,150,180,211,242,272,303,333]
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+    bokeh_plot_gdd_years()
     max_min_plot(names)
     gdd_plot(names)
     analyze_tbase()
@@ -32,49 +33,6 @@ def main():
 
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 
-
-    # read data from csv file
-    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
-    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
-    dataMean=pd.read_csv('./Input/canadaMean.csv',skiprows=7)
-
-
-    year = 1990 #1971-2000
-    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
-
-    latNl=dataMin[dataMin[' year']==year]['lat']       
-    lonNl=dataMin[dataMin[' year']==year][' lon']
-    latCa=dataMean[dataMean[' year']==year]['lat']       
-    lonCa=dataMean[dataMean[' year']==year][' lon']
-    tmin=dataMin[dataMin[' year']==year][month]
-    tmax=dataMax[dataMax[' year']==year][month]
-    tmean=dataMean[dataMean[' year']==year][month]
-
-    gdd=[]
-    for index, row in tmin.iterrows():    
-        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
-
-    map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
-
-
-    gdd=[]
-    tbase=10
-    flowering=27 # gdd start number
-
-    for index, row in tmean.iterrows():    
-        sm=0
-        mon=1
-        for t in tmean.loc[index]:
-            sm+=30*max(t-tbase,0)
-            if sm>=flowering:
-                gdd.append(mon)
-                break
-            if mon==12:
-                gdd.append(mon)
-                break
-            mon+=1
-    
-    map_plot(list(latCa), list(lonCa), gdd,year,month,True) # map plot Ca for blooming
 
 """
 MINIMUM CORE TASKS, NO.2
@@ -244,7 +202,7 @@ def map_plot(lat, lon, gdd,year,month,bloom):
         cbar=plt.colorbar(shrink=.5)
         cbar.ax.set_yticklabels(month)
         plt.title('Blooming of red maple tree in '+str(year))
-        plt.savefig('./Output/CanadaBloomingOfMapleIn.png')
+        plt.savefig('./Output/CanadaBloomingOfMaple.png')
 
 
 
@@ -283,6 +241,102 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
     ax.set_ylabel('Total GDD')
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
+def bokeh_plot_gdd_years():
+
+    data_frame=pd.read_csv("./Input/Ottawa_grouped_gdd.csv") ## To be replaced with fname
+    data1 = data_frame.transpose()
+    #print (data)
+    Mean = [None]*365
+    fifth_percentile = [None]*365
+    ninety_fifth_percentile = [None]*365
+    twenty_fifth_percentile = [None]*365
+    seventy_fifth_percentile = [None]*365
+    xaxisTickNames = [None]*365
+    numOfYearsGDDRecorded = (len(list(data1[0][ 1:])))
+    fivepercentile = round((5/100) * numOfYearsGDDRecorded)
+    ninetyfivepercentile = round((95/100) * numOfYearsGDDRecorded)
+    twentyfivepercentile = round((25/100) * numOfYearsGDDRecorded)
+    seventyfivepercentile = round((75/100) * numOfYearsGDDRecorded)
+    i=0
+    j=0
+    xHeader = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec", ""]
+    for day in data_frame['index']:
+        sorteddata = list(data1[i][ 1:])
+        sorteddata.sort()
+        Mean[i]=data1[i][ 1:].mean()
+        fifth_percentile[i] = sorteddata[fivepercentile]
+        ninety_fifth_percentile[i] = sorteddata[ninetyfivepercentile]
+        twenty_fifth_percentile[i] = sorteddata[twentyfivepercentile]
+        seventy_fifth_percentile[i] = sorteddata[seventyfivepercentile]
+        i+=1
+
+    source1 = ColumnDataSource(dict(
+    left=np.arange(0.5, 365.5, 1),
+    top= ninety_fifth_percentile,
+    right=np.arange(1.5, 366.5, 1),
+    bottom=fifth_percentile,))
+    source2 = ColumnDataSource(dict(
+    left=np.arange(0.5, 365.5, 1),
+    top= seventy_fifth_percentile,
+    right=np.arange(1.5, 366.5, 1),
+    bottom=twenty_fifth_percentile,))
+    plot = figure(x_axis_type="datetime", plot_width=400, tools="", toolbar_location=None)
+    plot.quad(top='top', bottom='bottom', left='left',right='right',source=source1,color="#000000", legend="Percentile 5-95")
+    plot.quad(top='top', bottom='bottom',left='left',right='right', source=source2,color="#66ccff",legend="percentile 25-75")
+    plot.line(np.arange(1,365,1),Mean,line_color='Red', line_width=0.5, legend='AverageTemp')
+    plot.border_fill_color = "whitesmoke"
+    plot.xaxis.axis_label = "GDD/Days over years"
+    plot.yaxis.axis_label = "Temperature (C)"
+    plot.axis.major_label_text_font_size = "10pt"
+    plot.axis.axis_label_text_font_size = "12pt"
+    plot.axis.axis_label_text_font_style = "bold"
+    plot.x_range = DataRange1d(range_padding=0.0, bounds=None)
+    plot.grid.grid_line_alpha = 0.3
+    new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_gdd_years.html"
+    output_file(new_fname, title="OptionalTask1GDDPlot")
+    save(plot)
+
+def to_fix():
+    # read data from csv file
+    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
+    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
+    dataMean=pd.read_csv('./Input/canadaMean.csv',skiprows=7)
+
+    year = 1990 #1971-2000
+    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
+
+    latNl=dataMin[dataMin[' year']==year]['lat']       
+    lonNl=dataMin[dataMin[' year']==year][' lon']
+    latCa=dataMean[dataMean[' year']==year]['lat']       
+    lonCa=dataMean[dataMean[' year']==year][' lon']
+    tmin=dataMin[dataMin[' year']==year][month]
+    tmax=dataMax[dataMax[' year']==year][month]
+    tmean=dataMean[dataMean[' year']==year][month]
+
+    gdd=[]
+    for index, row in tmin.iterrows():    
+        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
+
+    map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
+
+    gdd=[]
+    tbase=10
+    flowering=27 # gdd start number
+
+    for index, row in tmean.iterrows():    
+        sm=0
+        mon=1
+        for t in tmean.loc[index]:
+            sm+=30*max(t-tbase,0)
+            if sm>=flowering:
+                gdd.append(mon)
+                break
+            if mon==12:
+                gdd.append(mon)
+                break
+            mon+=1
+    
+    map_plot(list(latCa), list(lonCa), gdd,year,month,True) # map plot Ca for blooming
 
 if __name__ == '__main__':
     main()
