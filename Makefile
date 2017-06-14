@@ -15,14 +15,14 @@ report.pdf: plot
 	@mv report.* $(OUTPUT)
 
 plot: gdd
-	@printf "\n Unzip input file...\n"
-	@tar xvzf ./Input/canadaMean.csv.tar.gz -C ./Input/
 	@printf "\nMaking plots...\n"
 	@python $(SCRIPTS)create_plots.py
 
 gdd:
 	@printf "\nMaking output folder...\n"
 	@mkdir Output/
+	@printf "\nUnzip input files...\n"
+	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
 	@printf "\nCalculating GDD...\n"
 	@python $(SCRIPTS)gdd.py $(TBASE) $(TUPPER) $(INPUT)
 
