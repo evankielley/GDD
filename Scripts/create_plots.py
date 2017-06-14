@@ -228,10 +228,15 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):
     regr = linear_model.LinearRegression()
     regr.fit(x, y)
 
-    plt.scatter(x, y,  color='black')
-    plt.plot(x, regr.predict(x), color='blue', linewidth=3)
-    plt.xticks(())
-    plt.yticks(())
+    text = "slope: {:0.4}\nscore: {:0.4}".format(regr.coef_[0,0],regr.score(x,y))
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.text(0.05, 0.95, text,backgroundcolor='grey',verticalalignment='top', horizontalalignment='left',transform=ax.transAxes,color='black', fontsize=15)
+    ax.scatter(x, y,  color='black')
+    ax.plot(x, regr.predict(x), color='blue', linewidth=3)
+    ax.set_title('Annual Total Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Total GDD')
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
 
