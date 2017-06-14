@@ -22,7 +22,7 @@ def main():
     days = [0,30,58,89,119,150,180,211,242,272,303,333]
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-    bokeh_plot_gdd_years()
+    #bokeh_plot_gdd_years() #TODO
     max_min_plot(names)
     gdd_plot(names)
     analyze_tbase()
@@ -33,10 +33,8 @@ def main():
 
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 
+    make_map_plots()
 
-"""
-MINIMUM CORE TASKS, NO.2
-"""
 def max_min_plot(names):
     plt.figure(1)
     plt.subplot(111)
@@ -78,9 +76,7 @@ def gdd_plot(names):
     plt.xticks(days,months)
     plt.savefig('./Output/CumulativeGDD.png')
 
-"""    
-SECONDARY TASK Q.3    
-""" 
+
 def analyze_tbase():
     tbase = 10; tupper = 30
     tmin = 9; tmax = 12
@@ -104,9 +100,7 @@ def analyze_tbase():
     plt.legend(data.columns,loc='upper left')
     plt.savefig('./Output/AnalyzeTbase.png')
 
-"""    
-    
-"""    
+   
 def bokeh_plot_temp(fname):
 
     df = pd.read_csv(fname)
@@ -151,6 +145,50 @@ def bokeh_plot_gdd(fname):
 
     save(p)
 
+
+def make_map_plots():
+    # read data from csv file
+    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
+    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
+    dataMean=pd.read_csv('./Input/canadaMean.csv',skiprows=7)
+
+    year = 1990 #1971-2000
+    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
+
+    latNl=dataMin[dataMin[' year']==year]['lat']       
+    lonNl=dataMin[dataMin[' year']==year][' lon']
+    latCa=dataMean[dataMean[' year']==year]['lat']       
+    lonCa=dataMean[dataMean[' year']==year][' lon']
+    tmin=dataMin[dataMin[' year']==year][month]
+    tmax=dataMax[dataMax[' year']==year][month]
+    tmean=dataMean[dataMean[' year']==year][month]
+
+    gdd=[]
+    for index, row in tmin.iterrows():    
+        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
+
+    map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
+
+    gdd=[]
+    tbase=10
+    flowering=27 # gdd start number
+
+    for index, row in tmean.iterrows():    
+        sm=0
+        mon=1
+        for t in tmean.loc[index]:
+            sm+=30*max(t-tbase,0)
+            if sm>=flowering:
+                gdd.append(mon)
+                break
+            if mon==12:
+                gdd.append(mon)
+                break
+            mon+=1
+    
+    map_plot(list(latCa), list(lonCa), gdd,year,month,True) # map plot Ca for blooming
+
+
 def map_plot(lat, lon, gdd,year,month,bloom):
     plt.figure(4)
 
@@ -169,7 +207,6 @@ def map_plot(lat, lon, gdd,year,month,bloom):
  
     map.drawcoastlines()
     map.drawcountries()
-    #map.fillcontinents(color = 'coral')
     map.drawmapboundary()
       
     # Define a colormap
@@ -182,18 +219,19 @@ def map_plot(lat, lon, gdd,year,month,bloom):
     x,y = map(lon, lat)
     # Color the transformed points!
     #sc = plt.scatter(x,y, c=gdd, vmin=min(gdd), vmax =max(gdd), cmap=jet) # ,s=700, edgecolors='none'
-    # And let's include that colorbar
 
-    # interpolate data points
+    # Interpolate gdd data points
     numIndexes = 500
     xi = np.linspace(np.min(x), np.max(x),numIndexes)
     yi = np.linspace(np.min(y), np.max(y),numIndexes)
 
     DEM = griddata(x, y, gdd, xi, yi,interp='linear')
 
+    # Plot interpolated data 
     map.imshow(DEM,cmap =jet,origin='lower') #cmap ='RdYlGn_r'
     map.drawlsmask(land_color=(0, 0, 0, 0), ocean_color='white', lakes=True)
     
+    # Add title and colorbar
     if not bloom:
         plt.colorbar(shrink = .5)
         plt.title('Acumulated GDD of the year '+str(year))
@@ -206,10 +244,7 @@ def map_plot(lat, lon, gdd,year,month,bloom):
 
 
 
-"""
-Task 2. Q6. COMPAIRS THE ANUAL GDD AMOUNT OVER A 55 YEARS PERIOD FOR TORONTO AND EXTRAPOLATE A LINE TO CLARIFY THE TREND
 
-"""
 def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the city and interval for investigation can change
     
     plt.figure(5)    
@@ -296,47 +331,6 @@ def bokeh_plot_gdd_years():
     output_file(new_fname, title="OptionalTask1GDDPlot")
     save(plot)
 
-def to_fix():
-    # read data from csv file
-    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
-    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
-    dataMean=pd.read_csv('./Input/canadaMean.csv',skiprows=7)
-
-    year = 1990 #1971-2000
-    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
-
-    latNl=dataMin[dataMin[' year']==year]['lat']       
-    lonNl=dataMin[dataMin[' year']==year][' lon']
-    latCa=dataMean[dataMean[' year']==year]['lat']       
-    lonCa=dataMean[dataMean[' year']==year][' lon']
-    tmin=dataMin[dataMin[' year']==year][month]
-    tmax=dataMax[dataMax[' year']==year][month]
-    tmean=dataMean[dataMean[' year']==year][month]
-
-    gdd=[]
-    for index, row in tmin.iterrows():    
-        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
-
-    map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
-
-    gdd=[]
-    tbase=10
-    flowering=27 # gdd start number
-
-    for index, row in tmean.iterrows():    
-        sm=0
-        mon=1
-        for t in tmean.loc[index]:
-            sm+=30*max(t-tbase,0)
-            if sm>=flowering:
-                gdd.append(mon)
-                break
-            if mon==12:
-                gdd.append(mon)
-                break
-            mon+=1
-    
-    map_plot(list(latCa), list(lonCa), gdd,year,month,True) # map plot Ca for blooming
 
 if __name__ == '__main__':
     main()

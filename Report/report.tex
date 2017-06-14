@@ -108,8 +108,8 @@ If $\text{tmax}_i$ or $\text{tmax}_i$ is bigger than tupper it is set to tupper,
  also if $\text{tmin}_i$ or $\text{tmax}_i$ 
 is  smaller than tbase then it is set to tbase.
 \\The base temperature,Tbase, is that temperature below which plant growth is zero.
- GDUs are accumulated by adding each day’s GDs contribution as the season progresses.
-\\ The maximum temperature,Tupp, is usually capped at 30 °C because most plants and 
+ GDUs are accumulated by adding each day's GDs contribution as the season progresses.
+\\ The maximum temperature,Tupp, is usually capped at 30 ${}^\circ$C because most plants and 
 insects do not grow any faster above that temperature.
 %\item[gdd.sh]
 %\item Input: temperatures.csv, tbase, tupper
@@ -118,20 +118,24 @@ insects do not grow any faster above that temperature.
 
 \item[create\_plots.py]
 \item Output: CumulativeGDD.png, CompareMaxMinTemp.png, AnalyzeTbase.png, gddMapPlotNL.png
-\item The script consitsts of functions:
+\item The script consists of functions:
 \begin{itemize}
-\item max\_min\_plot(names)
-\item gdd\_plot(names)
-\item analyze\_tbase()
-\item bokeh\_plot\_temp(fname)
-\item bokeh\_plot\_gdd(fname)
-\item map\_plot\_nl\_gdd()
-\end{itemize}
+\item max\_min\_plot(names) $\to$ CompareMaxMinTemp.png \\
+Shows the maximum and minimum temperatures for Montral, Ottawa and Victoria during the year of 2015 (Task 1.2).
+\item gdd\_plot(names)  $\to$ CumulativeGDD.png \\
+Shows the cumulative GDD for each city aforementioned in the year of 2015 (Task 1.4).
+\item map\_plot\_nl\_gdd()  $\to$  gddMapPlotNL.png \\
+Creates a colored map showing how the growing degree days affect Canada (Task 2.2).
+\item analyze\_tbase()  $\to$ Analyze\_Tbase.png \\
+Shows the accumulated GDD when the tbase is different from the default (Task 2.3).
+\item bokeh\_plot\_temp(fname)  
+\item bokeh\_plot\_gdd(fname) \\
+Shows the interactive plots in html format for selected cities (Task 2.4).
+\end{itemize} 
 \item Searches for files ending with \emph{gdd.csv}. 
-Then reads of each file the max and min temperature column and creatas a subplot
-showing the time line of the max and min temperature. Also reads the GDD column 
-and adds accumulated GDD to another figure. Finally saves the two created figures
- as PNG-files in the \emph{Plot} folder.
+In each file, it reads the max and min temperatures columns and the cumulative 
+GDD to create the subplots and/or maps required to complete the tasks. 
+Finally saves the created figures as PNG-files in the \emph{Plot} folder.
 
 \end{description}
 \subsection{Process flow}
@@ -154,6 +158,7 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 
 
 \pagebreak
+
 \subsection{Results}
 	\begin{figure}[!htbp]
 		\centering
@@ -178,8 +183,9 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 		\includegraphics[width=0.9\textwidth]{./Output/AnalyzeTbase.png} 
 		\caption{\scriptsize Figure shows comparison of different tbase choices.}\label{gddMapNl}		  
 	\end{figure}
+
 For example, suppose you plant Red Maple in different areas on May 15th.
-The tree has a base temperature of 10°C and requires 27 GDD to reach maturity.
+The tree has a base temperature of 10${}^\circ$C and requires 27 GDD to reach maturity.
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/CanadaBloomingOfMaple.png} 
