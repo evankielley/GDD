@@ -71,7 +71,11 @@ plant, which in turn control the rate of growth and development toward maturity.
 \\The amount of heat accumulated during the day, as obtained by subtracting the
  plant's base temperature from the mean temperature for the day, is termed the
  degree-day accumulation.
-\\
+\\The growing degree days helps to identify the limits of geographical areas 
+suitable for production of various crops, particularly corn, and to evaluate 
+areas agriculturally suitable for new or non-native plants. Other applications
+of degree-days include the prediction of bloom date, tree fruit development, and
+insect activity related to agriculture and forestry.
 
 
 \pagebreak
@@ -103,7 +107,10 @@ $$
 If $\text{tmax}_i$ or $\text{tmax}_i$ is bigger than tupper it is set to tupper,
  also if $\text{tmin}_i$ or $\text{tmax}_i$ 
 is  smaller than tbase then it is set to tbase.
-
+\\The base temperature,Tbase, is that temperature below which plant growth is zero.
+ GDUs are accumulated by adding each day’s GDs contribution as the season progresses.
+\\ The maximum temperature,Tupp, is usually capped at 30 °C because most plants and 
+insects do not grow any faster above that temperature.
 %\item[gdd.sh]
 %\item Input: temperatures.csv, tbase, tupper
 %\item Output:
