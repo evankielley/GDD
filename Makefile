@@ -6,20 +6,28 @@ REPORT = ./Report/
 SCRIPTS = ./Scripts/
 
 all: report.pdf
+	@printf "\nDone\n\n"
 
 report.pdf: plot
-	pdflatex $(REPORT)report.tex
+	@printf "\nMaking LaTeX report...\n"
+	@pdflatex -interaction=batchmode $(REPORT)report.tex
+	@printf "\nMoving report output to output folder...\n"
 	@mv report.* $(OUTPUT)
 
 plot: gdd
-	python $(SCRIPTS)create_plots.py
+	@printf "\nMaking plots...\n"
+	@python $(SCRIPTS)create_plots.py
 
 gdd:
+	@printf "\nMaking output folder...\n"
 	@mkdir Output/
-	python $(SCRIPTS)gdd.py $(TBASE) $(TUPPER) $(INPUT)
+	@printf "\nCalculating GDD...\n"
+	@python $(SCRIPTS)gdd.py $(TBASE) $(TUPPER) $(INPUT)
 
 clean:
-	rm -rf $(OUTPUT)
+	@printf "\nCleaning...\n"
+	@rm -rf $(OUTPUT)
+	@printf "\nAll clean\n\n"
 
 #data.csv:
 #	curl -o data.csv http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=50089&Year=2016&timeframe=2&submit=Download+Data
