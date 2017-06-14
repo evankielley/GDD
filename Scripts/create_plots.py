@@ -51,9 +51,9 @@ def max_min_plot(names):
         plt.text(405,plotData['MaxTemp'].mean(),fileName.split('_')[1],rotation=-90)
 #        plt.ylabel(fileName.split('_')[1])
         plt.xticks(days,months)
-        plt.legend(loc='upper right',prop={'size':6})
+#        plt.legend(loc='upper right',prop={'size':6})
         if fileName is names[int(n/2)]:
-            plt.ylabel('T in '+u'\xb0'+'C',size=15)
+            plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
     plt.suptitle('Max and Min Temperature')
