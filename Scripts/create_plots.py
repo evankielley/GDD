@@ -31,7 +31,50 @@ def main():
     bokeh_plot_gdd(fname)
 
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
-    map_plot_nl_gdd()
+
+
+    # read data from csv file
+    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
+    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
+    dataMean=pd.read_csv('./Input/canadaMean.csv',skiprows=7)
+
+
+    year = 1990 #1971-2000
+    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
+
+    latNl=dataMin[dataMin[' year']==year]['lat']       
+    lonNl=dataMin[dataMin[' year']==year][' lon']
+    latCa=dataMean[dataMean[' year']==year]['lat']       
+    lonCa=dataMean[dataMean[' year']==year][' lon']
+    tmin=dataMin[dataMin[' year']==year][month]
+    tmax=dataMax[dataMax[' year']==year][month]
+    tmean=dataMean[dataMean[' year']==year][month]
+
+    gdd=[]
+    for index, row in tmin.iterrows():    
+        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
+
+    map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
+
+
+    gdd=[]
+    tbase=10
+    flowering=27 # gdd start number
+
+    for index, row in tmean.iterrows():    
+        sm=0
+        mon=1
+        for t in tmean.loc[index]:
+            sm+=30*max(t-tbase,0)
+            if sm>=flowering:
+                gdd.append(mon)
+                break
+            if mon==12:
+                gdd.append(mon)
+                break
+            mon+=1
+    
+    map_plot(list(latCa), list(lonCa), gdd,year,month,True) # map plot Ca for blooming
 
 """
 MINIMUM CORE TASKS, NO.2
@@ -150,32 +193,11 @@ def bokeh_plot_gdd(fname):
 
     save(p)
 
-def map_plot_nl_gdd():
+def map_plot(lat, lon, gdd,year,month,bloom):
     plt.figure(4)
-    # read data from csv file
-    dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
-    dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
-
-    dataMean=pd.read_csv('./Input/tempMean.csv',skiprows=7)
-
-    year = 1972 #1971-2000
-    month=[' january', ' february', ' march', ' april', ' may', ' june', ' july', ' august', ' september', ' october', ' november', ' december']
-
-    lat=dataMin[dataMin[' year']==year]['lat']       
-    lon=dataMin[dataMin[' year']==year][' lon']
-    tmin=dataMin[dataMin[' year']==year][month]
-    tmax=dataMax[dataMax[' year']==year][month]
-    tmean=dataMean[dataMean[' year']==year][month]
-
-    gdd=[]
-    for index, row in tmean.iterrows():    
-        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])
-   
-    lat=list(lat)
-    lon=list(lon)
 
     # plot map
-    plt.figure(figsize=(20,10))
+    plt.figure(figsize=(40,20))
 
     latMin=min(lat)
     latMax=max(lat)
@@ -193,11 +215,15 @@ def map_plot_nl_gdd():
     map.drawmapboundary()
       
     # Define a colormap
-    jet = plt.cm.get_cmap('jet')
+    if not bloom:
+        jet = plt.cm.get_cmap('jet')
+    else:
+        jet = plt.cm.get_cmap('jet_r')
+        
     # Transform points into Map's projection
     x,y = map(lon, lat)
     # Color the transformed points!
-    sc = plt.scatter(x,y, c=gdd, vmin=min(gdd), vmax =max(gdd), cmap=jet) # ,s=700, edgecolors='none'
+    #sc = plt.scatter(x,y, c=gdd, vmin=min(gdd), vmax =max(gdd), cmap=jet) # ,s=700, edgecolors='none'
     # And let's include that colorbar
 
     # interpolate data points
@@ -209,12 +235,18 @@ def map_plot_nl_gdd():
 
     map.imshow(DEM,cmap =jet,origin='lower') #cmap ='RdYlGn_r'
     map.drawlsmask(land_color=(0, 0, 0, 0), ocean_color='white', lakes=True)
-    cbar = plt.colorbar(sc, shrink = .5)
-    #cbar.set_label(temp)
+    
+    if not bloom:
+        plt.colorbar(shrink = .5)
+        plt.title('Acumulated GDD of the year '+str(year))
+        plt.savefig('./Output/gddMapPlotNL.png')
+    else:
+        cbar=plt.colorbar(shrink=.5)
+        cbar.ax.set_yticklabels(month)
+        plt.title('Blooming of red maple tree in '+str(year))
+        plt.savefig('./Output/CanadaBloomingOfMapleIn.png')
 
-    plt.title('Acumulated GDD of the year '+str(year))
 
-    plt.savefig('./Output/gddMapPlotNL.png')
 
 """
 Task 2. Q6. COMPAIRS THE ANUAL GDD AMOUNT OVER A 55 YEARS PERIOD FOR TORONTO AND EXTRAPOLATE A LINE TO CLARIFY THE TREND
