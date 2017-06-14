@@ -129,3 +129,5 @@ def get_station_id(city, year):
     elif city == 'Fredericton' and year >= 1951 and year <= 2012:
         stationID = 6157
         return stationID
+    else:
+        return 0
