@@ -1,21 +1,21 @@
-import os 
 import pandas as pd
 
-def main():
-    bulk_download('Halifax', 2000, 2002)
+#def main():
+    #bulk_download('Halifax', 2000, 2002, save=True)
 
-def bulk_download(city, startYear, endYear):
-    for year in range(startYear, endYear+1):
-        download_data(city,year)    
+#def bulk_download(city, startYear, endYear, save=False):
+#    for year in range(startYear, endYear+1):
+#        download_data(city,year,save)    
 
-def download_data(city, year):
+def download_data(city, year,save=False):
     stationID = get_station_id(city,year)
-    #dir_path = os.path.dirname(os.path.realpath(__file__))
     month = 1; day = 1; timeframe = 2
     url = "http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID={}&Year={}&Month={}&Day={}&timeframe={}&submit=Download+Data".format(stationID,year,month,day,timeframe)
     data = pd.read_csv(url,skiprows=25)  # 15 for hourly
-    data.to_csv("./Input/"+str(year)+"_"+city+"_temp.csv")
-
+    if save:
+        data.to_csv("./Input/"+str(year)+"_"+city+"_temp.csv")
+    else:
+        return data
 
 def pick_city_and_year():
     cities = ['Charlottetown','Edmonton','St. John\'s','Victoria','Ottawa','Toronto','Montreal','Quebec City','Regina','Winnipeg','Yellowknife','Whitehorse','Iqaluit','Halifax','Fredericton']
@@ -114,5 +114,5 @@ def get_station_id(city, year):
         stationID = 6157
         return stationID
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
