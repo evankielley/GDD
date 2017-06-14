@@ -52,7 +52,7 @@ def max_min_plot(names):
 #        plt.ylabel(fileName.split('_')[1])
         plt.xticks(days,months)
         plt.legend(loc='upper right',prop={'size':6})
-        if fileName is name[int(n/2)]:
+        if fileName is names[int(n/2)]:
             plt.ylabel('T in '+u'\xb0'+'C',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
