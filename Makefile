@@ -18,13 +18,15 @@ plot: gdd
 	@printf "\nMaking plots...\n"
 	@python $(SCRIPTS)create_plots.py
 
-gdd:
-	@printf "\nMaking output folder...\n"
-	@mkdir Output/
-	@printf "\nUnzip input files...\n"
-	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
+gdd: prep
 	@printf "\nCalculating GDD...\n"
 	@python $(SCRIPTS)gdd.py $(TBASE) $(TUPPER) $(INPUT)
+
+prep:
+	@printf "\nMaking output folder...\n"
+	@mkdir Output/
+	@printf "\nUnzipping input files...\n"
+	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
 
 clean:
 	@printf "\nCleaning...\n"
