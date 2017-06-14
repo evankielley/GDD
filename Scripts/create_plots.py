@@ -209,10 +209,10 @@ def map_plot_nl_gdd():
 
     plt.savefig('./Output/gddMapPlotNL.png')
 
-```
+"""
 Task 2. Q6. COMPAIRS THE ANUAL GDD AMOUNT OVER A 55 YEARS PERIOD FOR TORONTO AND EXTRAPOLATE A LINE TO CLARIFY THE TREND
 
-```
+"""
 def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the city and interval for investigation can change
     
     plt.figure(5)    
@@ -228,7 +228,7 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
         df = df.append({'year': int(year), 'gdd': total_gdd}, ignore_index=True)
         
     x = df.year.values; y = df.gdd.values
-    x = x.reshape(x.size,1); y = y.reshape(y.size,1)
+    x = x.reshape(x.size,1); y = y.reshape(y.size,1)                 # It will put the data in one dimentional arrays to plot
 
     regr = linear_model.LinearRegression()
     regr.fit(x, y)
