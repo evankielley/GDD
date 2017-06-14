@@ -3,7 +3,7 @@
 import pandas as pd
 
 def download_data(city, year,save=False):
-"""This function downloads data from weather.gc.ca for a particular city in a particular year."""
+    """This function downloads data from weather.gc.ca for a particular city in a particular year."""
     stationID = get_station_id(city,year)
     month = 1; day = 1; timeframe = 2
     url = "http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID={}&Year={}&Month={}&Day={}&timeframe={}&submit=Download+Data".format(stationID,year,month,day,timeframe)
@@ -14,7 +14,7 @@ def download_data(city, year,save=False):
         return data
 
 def get_station_dict():
-"""This function merely stores and returns a stations dict of capital cities in Canada and one of their corresponding stationIDs."""
+    """This function merely stores and returns a stations dict of capital cities in Canada and one of their corresponding stationIDs."""
     stations = {'St. John\'s': 50089, 
                 'Charlottetown': 50621, 
                 'Halifax': 50620,
@@ -32,7 +32,7 @@ def get_station_dict():
     return stations
 
 def pick_city_and_year():
-"""This function interacts with the user to help them find the stationID they are looking for. """
+    """This function interacts with the user to help them find the stationID they are looking for. """
     cities = ['Charlottetown','Edmonton','St. John\'s','Victoria','Ottawa','Toronto','Montreal','Quebec City','Regina','Winnipeg','Yellowknife','Whitehorse','Iqaluit','Halifax','Fredericton']
     cities = sorted(cities)
     print('Here are the cities available to choose from.')
@@ -45,7 +45,7 @@ def pick_city_and_year():
 
 
 def get_station_id(city, year):
-"""This function will return the stationID for a particular city during a particular year."""
+    """This function will return the stationID for a particular city during a particular year."""
     if year < 1943 or year > 2017:
         return 0
     elif city == 'Charlottetown' and year >= 2012 and year <= 2017:
