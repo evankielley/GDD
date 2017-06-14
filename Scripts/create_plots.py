@@ -209,19 +209,22 @@ def map_plot_nl_gdd():
 
     plt.savefig('./Output/gddMapPlotNL.png')
 
+```
+Task 2. Q6. COMPAIRS THE ANUAL GDD AMOUNT OVER A 55 YEARS PERIOD FOR TORONTO AND EXTRAPOLATE A LINE TO CLARIFY THE TREND
 
-def plot_lin_reg(city,startYear, endYear,tbase,tupper):
+```
+def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the city and interval for investigation can change
     
     plt.figure(5)    
 
     df = pd.DataFrame()
     
-    for year in range(startYear, endYear+1):
+    for year in range(startYear, endYear+1):                        
         data = download_data(city, year)
         minT = data['Min Temp (°C)']
         maxT = data['Max Temp (°C)']
         gdd_day, gdd_arr = calc_gdd(list(minT),list(maxT),tbase,tupper)
-        total_gdd = gdd_arr[-1]
+        total_gdd = gdd_arr[-1]                                       # last day of the year gdd is identifier for all year
         df = df.append({'year': int(year), 'gdd': total_gdd}, ignore_index=True)
         
     x = df.year.values; y = df.gdd.values
@@ -234,11 +237,11 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.text(0.05, 0.95, text,backgroundcolor='grey',verticalalignment='top', horizontalalignment='left',transform=ax.transAxes,color='black', fontsize=15)
-    ax.scatter(x, y,  color='black')
+    ax.scatter(x, y,  color='red',size=12)
     ax.plot(x, regr.predict(x), color='blue', linewidth=3)
     ax.set_title('Annual Total Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Total GDD')
+    ax.set_xlabel('Year'.size=14)
+    ax.set_ylabel('Total GDD'.size=14)
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
 
