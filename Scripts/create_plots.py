@@ -13,27 +13,27 @@ from bokeh.models import HoverTool, BoxSelectTool,ColumnDataSource,DataRange1d,S
 
 def main():
     global path, names, days, months
+    
     names=[]
     path = os.path.abspath("./Output")
+    
     for file in os.listdir(path):
         if file.endswith("gdd.csv"):
             names.append(file)
-
+    
+    fname = path + "/" + names[0]
     days = [0,30,58,89,119,150,180,211,242,272,303,333]
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-    #bokeh_plot_gdd_years() #TODO
     max_min_plot(names)
     gdd_plot(names)
+    bokeh_plot_gdd_years()
+    make_map_plots()
     analyze_tbase()
-
-    fname = path + "/" + names[0]
     bokeh_plot_temp(fname)
     bokeh_plot_gdd(fname)
-
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 
-    make_map_plots()
 
 def max_min_plot(names):
     plt.figure(1)
@@ -110,7 +110,6 @@ def bokeh_plot_temp(fname):
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'Temperature (°C)'
 
-    #xdata = np.array(df['Date'], dtype=np.datetime64)
     xdata = df.index.values
 
     p.line(xdata, df["MaxTemp"], legend="Max Temp", line_color = "red")
@@ -139,7 +138,6 @@ def bokeh_plot_gdd(fname):
     p.line(xdata, df["GDD"], legend="GDD", line_color = "red")
     p.circle(xdata, df["GDD"], legend="GDD", fill_color="red", line_color="red", size=6)
 
-    
     new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_gdd.html"
     output_file(new_fname, title="GDD plot")
 
@@ -278,56 +276,64 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
 
 def bokeh_plot_gdd_years():
 
-    data_frame=pd.read_csv("./Input/Ottawa_grouped_gdd.csv") ## To be replaced with fname
-    data1 = data_frame.transpose()
-    #print (data)
-    Mean = [None]*365
-    fifth_percentile = [None]*365
-    ninety_fifth_percentile = [None]*365
-    twenty_fifth_percentile = [None]*365
-    seventy_fifth_percentile = [None]*365
-    xaxisTickNames = [None]*365
-    numOfYearsGDDRecorded = (len(list(data1[0][ 1:])))
-    fivepercentile = round((5/100) * numOfYearsGDDRecorded)
-    ninetyfivepercentile = round((95/100) * numOfYearsGDDRecorded)
-    twentyfivepercentile = round((25/100) * numOfYearsGDDRecorded)
-    seventyfivepercentile = round((75/100) * numOfYearsGDDRecorded)
+    city = 'Ottawa'
+    startYear = 1950; endYear = 2016
+    tbase = 10; tupper = 30
+
+    for year in range(startYear, endYear+1):
+        data = download_data(city, year)
+        minT = data['Min Temp (°C)']; maxT = data['Max Temp (°C)']
+        tmp = calc_gdd(list(minT),list(maxT),tbase,tupper)
+
+        if tmp is None:
+            print('Error in data for '+city+' in year '+str(year))
+
+        else:
+            n=len(data['Day']); Index = [None]*n
+
+            for i in range(n):
+                Index[i]=str(data['Month'][i])+"_"+str(data['Day'][i])
+            
+            gdd_day = list(tmp[0])
+
+            if year == startYear:
+                df = pd.DataFrame(gdd_day, index=Index, columns=[year])
+
+            else:
+                df[year] = pd.DataFrame(gdd_day, index=Index)
+
+    data1 = df.transpose()
+    Mean = [None]*366
+    percentile_5 = [None]*366; percentile_95 = [None]*366; percentile_25 = [None]*366; percentile_75 = [None]*366
+    total_years = len(list(data1['1_1']))
+    percentile5 = round((5/100) * total_years); percentile95 = round((95/100) * total_years)
+    percentile25 = round((25/100) * total_years); percentile75 = round((75/100) * total_years)
+
     i=0
-    j=0
-    xHeader = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec", ""]
-    for day in data_frame['index']:
-        sorteddata = list(data1[i][ 1:])
+    for day in df.index:
+        sorteddata = list(data1[day])
         sorteddata.sort()
-        Mean[i]=data1[i][ 1:].mean()
-        fifth_percentile[i] = sorteddata[fivepercentile]
-        ninety_fifth_percentile[i] = sorteddata[ninetyfivepercentile]
-        twenty_fifth_percentile[i] = sorteddata[twentyfivepercentile]
-        seventy_fifth_percentile[i] = sorteddata[seventyfivepercentile]
+        Mean[i]=data1[day].mean()
+        percentile_5[i] = sorteddata[percentile5]; percentile_95[i] = sorteddata[percentile95]
+        percentile_25[i] = sorteddata[percentile25]; percentile_75[i] = sorteddata[percentile75]
         i+=1
 
-    source1 = ColumnDataSource(dict(
-    left=np.arange(0.5, 365.5, 1),
-    top= ninety_fifth_percentile,
-    right=np.arange(1.5, 366.5, 1),
-    bottom=fifth_percentile,))
-    source2 = ColumnDataSource(dict(
-    left=np.arange(0.5, 365.5, 1),
-    top= seventy_fifth_percentile,
-    right=np.arange(1.5, 366.5, 1),
-    bottom=twenty_fifth_percentile,))
-    plot = figure(x_axis_type="datetime", plot_width=400, tools="", toolbar_location=None)
+    source1=ColumnDataSource(dict(left=np.arange(0.5,366.5),top= percentile_95,right=np.arange(1.5,367.5),bottom=percentile_5))
+    source2=ColumnDataSource(dict(left=np.arange(0.5,366.5),top= percentile_75,right=np.arange(1.5,367.5),bottom=percentile_25))
+
+    plot = figure(plot_width=600, tools="", toolbar_location=None)
     plot.quad(top='top', bottom='bottom', left='left',right='right',source=source1,color="#000000", legend="Percentile 5-95")
     plot.quad(top='top', bottom='bottom',left='left',right='right', source=source2,color="#66ccff",legend="percentile 25-75")
-    plot.line(np.arange(1,365,1),Mean,line_color='Red', line_width=0.5, legend='AverageTemp')
+    plot.line(np.arange(0,366),Mean,line_color='Red', line_width=0.5, legend='AverageTemp')
     plot.border_fill_color = "whitesmoke"
-    plot.xaxis.axis_label = "GDD/Days over years"
+    plot.xaxis.axis_label = "Days"
     plot.yaxis.axis_label = "Temperature (C)"
     plot.axis.major_label_text_font_size = "10pt"
     plot.axis.axis_label_text_font_size = "12pt"
     plot.axis.axis_label_text_font_style = "bold"
     plot.x_range = DataRange1d(range_padding=0.0, bounds=None)
     plot.grid.grid_line_alpha = 0.3
-    new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_gdd_years.html"
+    new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "OptionalTask1GDDPlot.html"
     output_file(new_fname, title="OptionalTask1GDDPlot")
     save(plot)
 
