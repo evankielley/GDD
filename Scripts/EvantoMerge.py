@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import glob, os
 import datetime
+from calc_gdd import calc_gdd
+from station_info import download_data
 from scipy.signal import savgol_filter
 from bokeh.io import curdoc, output_notebook, output_file
 from bokeh.layouts import row, column
@@ -13,9 +15,31 @@ from bokeh.plotting import figure, show, save
 
 
 def main():
+	city = 'Ottawa'
+	startYear = 1900
+	endYear = 2016
+	tbase = 10
+	tupper = 30
+	for year in range(startYear, endYear+1):
+		#print(year)
+		data = download_data(city, year)
+		minT = data['Min Temp (°C)']
+		maxT = data['Max Temp (°C)']
+		tmp = calc_gdd(list(minT),list(maxT),tbase,tupper)
+		if (tmp is None):
+		    print('Error in data for '+city+' in year '+str(year))
+		else:
+		    n=len(data['Day'])
+		    Index = [None]*n
+		    for i in range(n):
+		        Index[i]=str(data['Month'][i])+"_"+str(data['Day'][i])
+		    gdd_day = list(tmp[0])
+		    if (year == startYear):
+		        df = pd.DataFrame(gdd_day, index = Index, columns = [year])
+		    else:
+		        df[year] = pd.DataFrame(gdd_day, index = Index)
 
-	data_frame=pd.read_csv("..\Input\Ottawa_grouped_gdd.csv") ## To be replaced with fname
-	data1 = data_frame.transpose()
+	data1 = df.transpose()
 	#print (data)
 	Mean = [None]*365
 	fifth_percentile = [None]*365
@@ -23,7 +47,7 @@ def main():
 	twenty_fifth_percentile = [None]*365
 	seventy_fifth_percentile = [None]*365
 	xaxisTickNames = [None]*365
-	numOfYearsGDDRecorded = (len(list(data1[0][ 1:])))
+	numOfYearsGDDRecorded = (len(list(data1['1_1'])))
 	fivepercentile = round((5/100) * numOfYearsGDDRecorded)
 	ninetyfivepercentile = round((95/100) * numOfYearsGDDRecorded)
 	twentyfivepercentile = round((25/100) * numOfYearsGDDRecorded)
@@ -31,10 +55,10 @@ def main():
 	i=0
 	j=0
 	xHeader = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec", ""]
-	for day in data_frame['index']:
-		sorteddata = list(data1[i][ 1:])
+	for day in df.index:
+		sorteddata = list(data1[day])
 		sorteddata.sort()
-		Mean[i]=data1[i][ 1:].mean()
+		Mean[i]=data1[day].mean()
 		fifth_percentile[i] = sorteddata[fivepercentile]
 		ninety_fifth_percentile[i] = sorteddata[ninetyfivepercentile]
 		twenty_fifth_percentile[i] = sorteddata[twentyfivepercentile]
@@ -78,8 +102,6 @@ def main():
 	new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "OptionalTask1GDDPlot.html"
 	output_file(new_fname, title="OptionalTask1GDDPlot")
 	save(plot)
-	
+
 if __name__ == "__main__":
 	main()
-
-	
