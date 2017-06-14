@@ -21,6 +21,8 @@ plot: gdd
 gdd:
 	@printf "\nMaking output folder...\n"
 	@mkdir Output/
+	@printf "\nUnzip input files...\n"
+	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
 	@printf "\nCalculating GDD...\n"
 	@python $(SCRIPTS)gdd.py $(TBASE) $(TUPPER) $(INPUT)
 
