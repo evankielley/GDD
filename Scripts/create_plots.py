@@ -33,13 +33,15 @@ def main():
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
     map_plot_nl_gdd()
 
-
+"""
+MINIMUM CORE TASKS, NO.2
+"""
 def max_min_plot(names):
     plt.figure(1)
     plt.subplot(111)
     labels=[]
     n=len(names)
-    for fileName in names:
+    for fileName in names:                         # make the min and max graph for cities in the list
         i = names.index(fileName) 
         plotData=pd.read_csv(path +'/'+ fileName)
         ax=plt.figure(1,figsize=(5,n*15))
@@ -52,7 +54,7 @@ def max_min_plot(names):
 #        plt.ylabel(fileName.split('_')[1])
         plt.xticks(days,months)
 #        plt.legend(loc='upper right',prop={'size':6})
-        if fileName is names[int(n/2)]:
+        if fileName is names[int(n/2)]:             # put y label in the middle of y axes
             plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
@@ -75,6 +77,9 @@ def gdd_plot(names):
     plt.xticks(days,months)
     plt.savefig('./Output/CumulativeGDD.png')
 
+"""    
+SECONDARY TASK Q.3    
+""" 
 def analyze_tbase():
     tbase = 10; tupper = 30
     tmin = 9; tmax = 12
@@ -98,6 +103,9 @@ def analyze_tbase():
     plt.legend(data.columns,loc='upper left')
     plt.savefig('./Output/AnalyzeTbase.png')
 
+"""    
+    
+"""    
 def bokeh_plot_temp(fname):
 
     df = pd.read_csv(fname)
@@ -162,8 +170,7 @@ def map_plot_nl_gdd():
     gdd=[]
     for index, row in tmean.iterrows():    
         gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])
-    
-
+   
     lat=list(lat)
     lon=list(lon)
 
