@@ -16,7 +16,8 @@ Anaconda 4.4.0 or higher with:
 ## Installation Instructions 
 The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
 1. Clone this repo
-```git clone <repo name>.git
+```
+git clone <repo name>.git
 ```
 2. Test the `calc_gdd` function
 ```
