@@ -46,9 +46,7 @@ def pick_city_and_year():
 
 def get_station_id(city, year):
 """This function will return the stationID for a particular city during a particular year."""
-    if year < 1943 or year > 2017:
-        return 0
-    elif city == 'Charlottetown' and year >= 2012 and year <= 2017:
+    if city == 'Charlottetown' and year >= 2012 and year <= 2017:
         stationID = 50621
         return stationID
     elif city == 'Charlottetown' and year >= 1943 and year <= 2012:
@@ -129,3 +127,5 @@ def get_station_id(city, year):
     elif city == 'Fredericton' and year >= 1951 and year <= 2012:
         stationID = 6157
         return stationID
+    else:
+        return 0
