@@ -1,4 +1,18 @@
-def bokeh_plot_gdd_years():
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import glob, os
+import datetime
+from scipy.signal import savgol_filter
+from bokeh.io import curdoc, output_notebook, output_file
+from bokeh.layouts import row, column
+from bokeh.models import ColumnDataSource, DataRange1d, Select
+from bokeh.palettes import Blues4
+from bokeh.plotting import figure, show, save
+
+
+def main():
 
 	data_frame=pd.read_csv("..\Input\Ottawa_grouped_gdd.csv") ## To be replaced with fname
 	data1 = data_frame.transpose()
@@ -17,7 +31,7 @@ def bokeh_plot_gdd_years():
 	i=0
 	j=0
 	xHeader = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec", ""]
-	for day in data['index']:
+	for day in data_frame['index']:
 		sorteddata = list(data1[i][ 1:])
 		sorteddata.sort()
 		Mean[i]=data1[i][ 1:].mean()
@@ -52,7 +66,7 @@ def bokeh_plot_gdd_years():
 	plot = figure(x_axis_type="datetime", plot_width=400, tools="", toolbar_location=None)
 	plot.quad(top='top', bottom='bottom', left='left',right='right',source=source1,color="#000000", legend="Percentile 5-95")
 	plot.quad(top='top', bottom='bottom',left='left',right='right', source=source2,color="#66ccff",legend="percentile 25-75")
-	plot.line(np.arange(1,365,1),Mean,source=source,line_color='Red', line_width=0.5, legend='AverageTemp')
+	plot.line(np.arange(1,365,1),Mean,line_color='Red', line_width=0.5, legend='AverageTemp')
 	plot.border_fill_color = "whitesmoke"
 	plot.xaxis.axis_label = "GDD/Days over years"
 	plot.yaxis.axis_label = "Temperature (C)"
@@ -61,6 +75,11 @@ def bokeh_plot_gdd_years():
 	plot.axis.axis_label_text_font_style = "bold"
 	plot.x_range = DataRange1d(range_padding=0.0, bounds=None)
 	plot.grid.grid_line_alpha = 0.3
-	new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_temp.html"
+	new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "OptionalTask1GDDPlot.html"
 	output_file(new_fname, title="OptionalTask1GDDPlot")
 	save(plot)
+	
+if __name__ == "__main__":
+	main()
+
+	
