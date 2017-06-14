@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+    Does all the routine for getting temperature data from input files and producing output files.
+
+    Behavior can be widely modified by different command line options.
+    See python gdd.py -h for details.
+'''
+
 import argparse
 import glob
 import sys
@@ -6,17 +13,17 @@ import pandas as pd
 from calc_gdd import *
 
 parser = argparse.ArgumentParser(description = '''GDD calculation script''')
-parser.add_argument( "tbase", type=int,
+parser.add_argument( "tbase", type=float,
                      nargs = '?',
                      help = '''Tbase value for GDD calculation''')
-parser.add_argument( "tupper", type=int,
+parser.add_argument( "tupper", type=float,
                      nargs = '?',
                      help = '''Tupper value for GDD calculation''')
 # Adding an option to set Tbase using flag
-parser.add_argument( "-tb", "-tbase", type=int, default = 10,
+parser.add_argument( "-tb", "-tbase", type=float, default = 10,
                      help = '''flag for Tbase value for GDD calculation (default: 10)''')
 # Adding an option to set Tupper using flag
-parser.add_argument( "-tu", "-tupper", type=int, default = 30,
+parser.add_argument( "-tu", "-tupper", type=float, default = 30,
                      help = '''flag for Tupper value for GDD calculation (default: 30)''')
 # Input/output options
 parser.add_argument( "-input_files", "-f", "-file", type=str,
@@ -62,35 +69,42 @@ if(args.tbase is None):
 if(args.tupper is None):
     args.tupper = args.tu
 
-#print(args)
+# If input folder or output folder does not end with '/'
+# script will add it at the end
+if args.input_folder[-1] != '/':
+    args.input_folder +='/'
+if args.output_folder[-1] != '/':
+    args.output_folder +='/'
 
+# If input files arer not set, the script will just search
+# for all *_temp.csv files in the input folder
 if(args.input_files is None):
     filesList = glob.glob(args.input_folder+"*_temp.csv")
 else:
     filesList = []
     for input_file in args.input_files:
+        # If absolute path is set for some input file - the script will use that path
         if(input_file[0] == '/'):
             filesList.append(input_file)
+        # If the relaitive path is set for the input file - the sript
+        #will start from the input folder looking for that file
         else:
             filesList.append(args.input_folder+input_file)
-#print(filesList)
+
 for inputFileName in filesList:
-    #print(inputFileName)
     data=pd.read_csv(inputFileName)
     min_temp = data[args.min_temp_column_name]
     max_temp = data[args.max_temp_column_name]
-    # may add check for different min_temp and max_temp size
 
+    # Call for script that will do GDD calculation
     tmp = calc_gdd(list(min_temp), list(max_temp), args.tbase, args.tupper)
     if(tmp is None):
         print("Inconsistent data in "+inputFileName)
     else:
         gdd_day = tmp[0]
         gdd = tmp[1]
+
         # converting lists to pandas DataFrame to merge later
-        #print(inputFileName)
-        #print(gdd_day)
-        #print(gdd)
         gdd = pd.DataFrame.from_items([("GDD", gdd)])
         gdd_day = pd.DataFrame.from_items([("GDD_day", gdd_day)])
 
@@ -99,12 +113,17 @@ for inputFileName in filesList:
         data.columns = ['Year', 'Month', 'Day', 'MinTemp', 'MaxTemp', 'GDD_day', 'GDD']
         # forming new file name using the same template
         outputFileName = inputFileName.split('/')[-1]
+        # If input file name ends with _temp.csv - the output file will
+        # have the simular name, but end with _tbase_tupper_gdd.csv
         if(outputFileName[-9:] == "_temp.csv"):
             outputFileName = outputFileName[:-8]
         else:
+            # If input file name does not end with _temp.csv - the output file name
+            # will cut everything after the last '.' and make it end with _tbase_tupper_gdd.csv
             outputFileName = outputFileName[:outputFileName.rfind('.')]
-            if not (outputFileName[-1] == '_'):
+            # If output file name already have _ at the end,
+            # the script will not add the second one
+            if (outputFileName[-1] != '_'):
                 outputFileName += '_'
         outputFileName = args.output_folder+outputFileName+str(args.tbase)+"_"+str(args.tupper)+"_gdd.csv"
-        #print(outputFileName)
         data.to_csv(outputFileName)
