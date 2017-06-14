@@ -240,8 +240,8 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
     ax.scatter(x, y,  color='red',size=12)
     ax.plot(x, regr.predict(x), color='blue', linewidth=3)
     ax.set_title('Annual Total Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
-    ax.set_xlabel('Year'.size=14)
-    ax.set_ylabel('Total GDD'.size=14)
+    ax.set_xlabel('Year').size(14)
+    ax.set_ylabel('Total GDD').size(14)
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
 
