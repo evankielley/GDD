@@ -27,6 +27,7 @@ prep:
 	@mkdir Output/
 	@printf "\nUnzipping input files...\n"
 	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
+	@rm -rf ./Input/InputData.tar.gz
 
 clean:
 	@printf "\nCleaning...\n"
