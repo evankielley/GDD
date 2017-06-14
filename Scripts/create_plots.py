@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-import sys,os
+import sys, os
 import pandas as pd
-#import matplotlib
 import matplotlib.pylab as plt
 import numpy as np
 from calc_gdd import calc_gdd
+from station_info import download_data
 from matplotlib.mlab import griddata
 from mpl_toolkits.basemap import Basemap
+from sklearn import datasets, linear_model
 from bokeh.plotting import figure, output_file, save
 from bokeh.models import HoverTool, BoxSelectTool
 
 def main():
-    global path,names,days, months
+    global path, names, days, months
     names=[]
     path = os.path.abspath("./Output")
     for file in os.listdir(path):
@@ -25,11 +26,13 @@ def main():
     gdd_plot(names)
     analyze_tbase()
 
-    fname = '~/GDD/Output/2015_Montreal_gdd.csv'
-    bokeh_plot_temp(path + "/" + names[0])
-    bokeh_plot_gdd(path + "/" + names[0])
+    fname = path + "/" + names[0]
+    bokeh_plot_temp(fname)
+    bokeh_plot_gdd(fname)
 
+    plot_lin_reg('Toronto', 1960, 2015, 10, 30)
     map_plot_nl_gdd()
+
 
 def max_min_plot(names):
     plt.figure(1)
@@ -56,7 +59,7 @@ def max_min_plot(names):
 
 def gdd_plot(names):
     labels = []
-    plt.figure(4)   
+    plt.figure(2)   
     for fileName in names:
         i = names.index(fileName) 
         plotData=pd.read_csv(path +'/'+ fileName)
@@ -84,7 +87,7 @@ def analyze_tbase():
         col_name = "Tbase: {}".format(tbase)
         df = pd.DataFrame({col_name: gdd[1]})
         data = pd.concat([data, df], axis=1, join='inner')
-    plt.figure(5)
+    plt.figure(3)
     plt.xticks(days,months)
     plt.plot(data)
     plt.title("Effect of Tbase on Growing Degree Days (GDD)")
@@ -138,6 +141,7 @@ def bokeh_plot_gdd(fname):
     save(p)
 
 def map_plot_nl_gdd():
+    plt.figure(4)
     # read data from csv file
     dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
     dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
@@ -202,6 +206,33 @@ def map_plot_nl_gdd():
     plt.title('Acumulated GDD of the year '+str(year))
 
     plt.savefig('./Output/gddMapPlotNL.png')
+
+
+def plot_lin_reg(city,startYear, endYear,tbase,tupper):
+    
+    plt.figure(5)    
+
+    df = pd.DataFrame()
+    
+    for year in range(startYear, endYear+1):
+        data = download_data(city, year)
+        minT = data['Min Temp (°C)']
+        maxT = data['Max Temp (°C)']
+        gdd_day, gdd_arr = calc_gdd(list(minT),list(maxT),tbase,tupper)
+        total_gdd = gdd_arr[-1]
+        df = df.append({'year': int(year), 'gdd': total_gdd}, ignore_index=True)
+        
+    x = df.year.values; y = df.gdd.values
+    x = x.reshape(x.size,1); y = y.reshape(y.size,1)
+
+    regr = linear_model.LinearRegression()
+    regr.fit(x, y)
+
+    plt.scatter(x, y,  color='black')
+    plt.plot(x, regr.predict(x), color='blue', linewidth=3)
+    plt.xticks(())
+    plt.yticks(())
+    plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
 
 if __name__ == '__main__':
