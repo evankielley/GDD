@@ -1,16 +1,44 @@
 # :octocat: Growing Degree Days in Canada - Data Project :octocat:
 
-This project aimed to gain experience with computational workflow for a scientific problem in which data was retrived from the Historial Climate Data from the Government of Canada to calculate the Growing Degree Days (GDD) in three cities: Montreal, Ottawa and Victoria. The GDD is a heat index (heat accumulation) that describes the best timing of biological process such as when a crop will reach maturity, when a flower will bloom, or even when animals will migrate. It is calculated through the formula GDD = [(T<sub>max</sub> + T<sub>min</sub>)/2] - T<sub>base</sub>, in which T<sub>max</sub> and T<sub>min</sub> are the daily maximum and minimum temperatures, and T<sub>base</sub> is the base temperature [1].
+This project aimed to gain experience with computational workflow for a scientific problem in which data was retrieved from the Historical Climate Data from the Government of Canada to calculate the Growing Degree Days (GDD) in three cities: Montreal, Ottawa and Victoria. The GDD is a heat index (heat accumulation) that describes the best timing of biological process such as when a crop will reach maturity, when a flower will bloom, or even when animals will migrate. It is calculated through the formula GDD = [(T<sub>max</sub> + T<sub>min</sub>)/2] - T<sub>base</sub>, in which T<sub>max</sub> and T<sub>min</sub> are the daily maximum and minimum temperatures, and T<sub>base</sub> is the base temperature [1].
+
+## Dependencies
+* Operating System
+1. Linux
+2. Mac 
+3. Windows (maybe)
+
+* Plataforms
+Anaconda 4.4.0 or higher with: 
+1. Python 3.6 or higher
+2. mpl_toolkits.Basemap
 
 ## Installation Instructions 
 The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
-1. Clone this repo.
-2. In the bash shell:
+1. Clone this repo
+```git clone <repo name>.git
+```
+2. Test the `calc_gdd` function
+```
+py.test
+```
+3. In the bash shell:
 ```
 make clean
 make all
-
 ```
+
+## Outputs
+* Files
+  - 2015_cityname_gdd.csv
+* Figures
+  - CompareMinMaxTemp.png
+  - CumulativeGDD.png
+  - AnalyzeTbase.png
+  - CanadaBloomingOfMaple
+* HTML
+* Report
+
 ## Primary Tasks
 * The data retrieved from [Climate Weather Canada](http://climate.weather.gc.ca) on Jun 5th, 2017, contains the annual temperatures of 2015 for 3 cities in Canada: Montreal, Victoria and Ottawa (downloaded as 2015_city_temp.csv files).
 * The .csv files contain extra information that are not necessary in this task. Therefore, we created the script `gdd.py` to run the data from the .csv files into more readable and useful information. The output files generated contain only the days, min/max daily temperatures and the cumulative GDD (growing degree days) which are already calculated for each city. These files were named 2015_city_10_30_gdd.csv (found in the Outputs folder). The data obtained was used to create plots showing the annual cycle of min/max daily temperatures for each city and the accumulation GDD. The files obtained when using the `gdd.py` script were also used to calculate the GDD by calling the 'tbase' and 'tupper' as arguments that were set up to be 10 and 30, respectively. 
@@ -30,6 +58,9 @@ gdd_plot(names)
 ## Secondary Tasks
 For all plots generated in this task, the script `create_plots.py` is called, except for question 5.
 * *Question 1*: 
+```
+bokeh_plot_gdd_years()
+```
 * *Question 2*: The input .csv files to solve this question are found in the Input folder (TempMax, TempMean, TempMin). The map of Canada shows the effective GDD of the country distributed by colours, in which as redder the area is, higher the GDD cumulation is.  
 ```
 map_plot_nl_gdd()
