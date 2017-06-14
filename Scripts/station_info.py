@@ -1,13 +1,9 @@
+"""This module stores stations and stationIDs for cities that are mostly capital cities in Canada and years that are mostly between 1943 and present. It also contains function that can download data, return dataframes, and save if desired."""
+
 import pandas as pd
 
-#def main():
-    #bulk_download('Halifax', 2000, 2002, save=True)
-
-#def bulk_download(city, startYear, endYear, save=False):
-#    for year in range(startYear, endYear+1):
-#        download_data(city,year,save)    
-
 def download_data(city, year,save=False):
+"""This function downloads data from weather.gc.ca for a particular city in a particular year."""
     stationID = get_station_id(city,year)
     month = 1; day = 1; timeframe = 2
     url = "http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID={}&Year={}&Month={}&Day={}&timeframe={}&submit=Download+Data".format(stationID,year,month,day,timeframe)
@@ -17,7 +13,26 @@ def download_data(city, year,save=False):
     else:
         return data
 
+def get_station_dict():
+"""This function merely stores and returns a stations dict of capital cities in Canada and one of their corresponding stationIDs."""
+    stations = {'St. John\'s': 50089, 
+                'Charlottetown': 50621, 
+                'Halifax': 50620,
+                'Fredericton': 48568, 
+                'Quebec City': 26892,
+                'Ottawa': 49568,
+                'Winnepeg': 51097,
+                'Regina': 28011,
+                'Edmonton': 50149,
+                'Victoria': 51337,
+                'Whitehorse': 50842,
+                'Yellowknife': 51058,
+                'Montreal':51157,
+                'Iqaluit': 42503}
+    return stations
+
 def pick_city_and_year():
+"""This function interacts with the user to help them find the stationID they are looking for. """
     cities = ['Charlottetown','Edmonton','St. John\'s','Victoria','Ottawa','Toronto','Montreal','Quebec City','Regina','Winnipeg','Yellowknife','Whitehorse','Iqaluit','Halifax','Fredericton']
     cities = sorted(cities)
     print('Here are the cities available to choose from.')
@@ -30,6 +45,7 @@ def pick_city_and_year():
 
 
 def get_station_id(city, year):
+"""This function will return the stationID for a particular city during a particular year."""
     if year < 1943 or year > 2017:
         return 0
     elif city == 'Charlottetown' and year >= 2012 and year <= 2017:
@@ -113,6 +129,3 @@ def get_station_id(city, year):
     elif city == 'Fredericton' and year >= 1951 and year <= 2012:
         stationID = 6157
         return stationID
-
-#if __name__ == "__main__":
-#    main()
