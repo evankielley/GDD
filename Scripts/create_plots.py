@@ -33,25 +33,29 @@ def main():
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
     map_plot_nl_gdd()
 
-
+"""
+MINIMUM CORE TASKS, NO.2
+"""
 def max_min_plot(names):
     plt.figure(1)
     plt.subplot(111)
     labels=[]
     n=len(names)
-    for fileName in names:
+    for fileName in names:                         # make the min and max graph for cities in the list
         i = names.index(fileName) 
         plotData=pd.read_csv(path +'/'+ fileName)
         ax=plt.figure(1,figsize=(5,n*15))
         plt.subplot(n,1,i+1)
         plt.subplots_adjust(hspace=.5)
         plt.plot(plotData['MaxTemp'],'r')
+        plt.grid()
         plt.plot(plotData['MinTemp'],'b')
         plt.text(405,plotData['MaxTemp'].mean(),fileName.split('_')[1],rotation=-90)
 #        plt.ylabel(fileName.split('_')[1])
         plt.xticks(days,months)
-        plt.legend(loc='upper right',prop={'size':6})
-    plt.ylabel('T in '+u'\xb0'+'C')
+#        plt.legend(loc='upper right',prop={'size':6})
+        if fileName is names[int(n/2)]:             # put y label in the middle of y axes
+            plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
     plt.suptitle('Max and Min Temperature')
@@ -73,6 +77,9 @@ def gdd_plot(names):
     plt.xticks(days,months)
     plt.savefig('./Output/CumulativeGDD.png')
 
+"""    
+SECONDARY TASK Q.3    
+""" 
 def analyze_tbase():
     tbase = 10; tupper = 30
     tmin = 9; tmax = 12
@@ -96,6 +103,9 @@ def analyze_tbase():
     plt.legend(data.columns,loc='upper left')
     plt.savefig('./Output/AnalyzeTbase.png')
 
+"""    
+    
+"""    
 def bokeh_plot_temp(fname):
 
     df = pd.read_csv(fname)
@@ -160,8 +170,7 @@ def map_plot_nl_gdd():
     gdd=[]
     for index, row in tmean.iterrows():    
         gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])
-    
-
+   
     lat=list(lat)
     lon=list(lon)
 
@@ -207,23 +216,26 @@ def map_plot_nl_gdd():
 
     plt.savefig('./Output/gddMapPlotNL.png')
 
+"""
+Task 2. Q6. COMPAIRS THE ANUAL GDD AMOUNT OVER A 55 YEARS PERIOD FOR TORONTO AND EXTRAPOLATE A LINE TO CLARIFY THE TREND
 
-def plot_lin_reg(city,startYear, endYear,tbase,tupper):
+"""
+def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the city and interval for investigation can change
     
     plt.figure(5)    
 
     df = pd.DataFrame()
     
-    for year in range(startYear, endYear+1):
+    for year in range(startYear, endYear+1):                        
         data = download_data(city, year)
         minT = data['Min Temp (°C)']
         maxT = data['Max Temp (°C)']
         gdd_day, gdd_arr = calc_gdd(list(minT),list(maxT),tbase,tupper)
-        total_gdd = gdd_arr[-1]
+        total_gdd = gdd_arr[-1]                                       # last day of the year gdd is identifier for all year
         df = df.append({'year': int(year), 'gdd': total_gdd}, ignore_index=True)
         
     x = df.year.values; y = df.gdd.values
-    x = x.reshape(x.size,1); y = y.reshape(y.size,1)
+    x = x.reshape(x.size,1); y = y.reshape(y.size,1)                 # It will put the data in one dimentional arrays to plot
 
     regr = linear_model.LinearRegression()
     regr.fit(x, y)
@@ -232,7 +244,7 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.text(0.05, 0.95, text,backgroundcolor='grey',verticalalignment='top', horizontalalignment='left',transform=ax.transAxes,color='black', fontsize=15)
-    ax.scatter(x, y,  color='black')
+    ax.scatter(x, y,  color='red')
     ax.plot(x, regr.predict(x), color='blue', linewidth=3)
     ax.set_title('Annual Total Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
     ax.set_xlabel('Year')
