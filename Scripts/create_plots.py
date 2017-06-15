@@ -94,7 +94,7 @@ def analyze_tbase():
     plt.figure(3)
     plt.xticks(days,months)
     plt.plot(data)
-    plt.title("Effect of Tbase on Growing Degree Days (GDD)")
+    plt.title("Effect of Tbase on Growing Degree Days in Victoria")
     plt.xlabel("Year")
     plt.ylabel("Cumulative GDD")
     plt.legend(data.columns,loc='upper left')
@@ -106,7 +106,7 @@ def bokeh_plot_temp(fname):
     df = pd.read_csv(fname)
 
     hover = HoverTool(tooltips=[("index", "$index"),("Temp", "$y"),])
-    p = figure(title = "Montreal Temperature 2015", x_axis_type="datetime", tools=[hover, "pan,reset,resize,wheel_zoom"])
+    p = figure(title = "Victoria Temperature 2015", x_axis_type="datetime", tools=[hover, "pan,reset,resize,wheel_zoom"])
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'Temperature (°C)'
 
@@ -129,7 +129,7 @@ def bokeh_plot_gdd(fname):
     df = pd.read_csv(fname)
     
     hover = HoverTool(tooltips=[("Index", "$index"),("GDD", "$y"),])
-    p = figure(title = "Montreal GDD 2015", tools=[hover, "pan,reset,resize,wheel_zoom"])
+    p = figure(title = "Victoria GDD 2015", tools=[hover, "pan,reset,resize,wheel_zoom"])
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'GDD'
 
@@ -321,13 +321,13 @@ def bokeh_plot_gdd_years():
     source1=ColumnDataSource(dict(left=np.arange(0.5,366.5),top= percentile_95,right=np.arange(1.5,367.5),bottom=percentile_5))
     source2=ColumnDataSource(dict(left=np.arange(0.5,366.5),top= percentile_75,right=np.arange(1.5,367.5),bottom=percentile_25))
 
-    plot = figure(plot_width=600, tools="", toolbar_location=None)
+    plot = figure(plot_width=600, tools="", toolbar_location=None, title="Daily GDD Statistics for {} from {} to {}".format(city,startYear,endYear))
     plot.quad(top='top', bottom='bottom', left='left',right='right',source=source1,color="#000000", legend="Percentile 5-95")
     plot.quad(top='top', bottom='bottom',left='left',right='right', source=source2,color="#66ccff",legend="percentile 25-75")
     plot.line(np.arange(0,366),Mean,line_color='Red', line_width=0.5, legend='AverageTemp')
     plot.border_fill_color = "whitesmoke"
     plot.xaxis.axis_label = "Days"
-    plot.yaxis.axis_label = "Temperature (C)"
+    plot.yaxis.axis_label = "Daily GDD Accumulation"
     plot.axis.major_label_text_font_size = "10pt"
     plot.axis.axis_label_text_font_size = "12pt"
     plot.axis.axis_label_text_font_style = "bold"
