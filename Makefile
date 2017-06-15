@@ -27,11 +27,11 @@ prep:
 	@mkdir Output/
 	@printf "\nUnzipping input files...\n"
 	@tar xvzf ./Input/InputData.tar.gz -C ./Input/
-	@rm -rf ./Input/InputData.tar.gz
 
 clean:
 	@printf "\nCleaning...\n"
 	@rm -rf $(OUTPUT)
+	@rm -rf ./Input/*.csv
 	@printf "\nAll clean\n\n"
 
 #data.csv:
