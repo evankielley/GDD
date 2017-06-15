@@ -26,12 +26,19 @@ def main():
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     max_min_plot(names)
+
     gdd_plot(names)
-    bokeh_plot_gdd_years()
+    
+    bokeh_plot_gdd_years('Ottawa',1950,2016,10,30)
+    
     make_map_plots()
-    analyze_tbase()
+    
+    analyze_tbase('Victoria',2015,6,15,10,30)
+    
     bokeh_plot_temp(fname)
+    
     bokeh_plot_gdd(fname)
+    
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 
 
@@ -77,11 +84,7 @@ def gdd_plot(names):
     plt.savefig('./Output/CumulativeGDD.png')
 
 
-def analyze_tbase():
-    tbase = 10; tupper = 30
-    tmin = 9; tmax = 12
-    city = names[0].split('_')[1]
-    year = names[0].split('_')[0]
+def analyze_tbase(city,year,tmin,tmax,tbase,tupper):
     df = pd.read_csv(path +'/'+ names[0])
     min_temp = df['MinTemp']
     max_temp = df['MaxTemp']
@@ -282,11 +285,8 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
     ax.set_ylabel('Total GDD')
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
-def bokeh_plot_gdd_years():
+def bokeh_plot_gdd_years(city, startYear, endYear, tbase, tupper):
 
-    city = 'Ottawa'
-    startYear = 1950; endYear = 2016
-    tbase = 10; tupper = 30
 
     for year in range(startYear, endYear+1):
         data = download_data(city, year)
