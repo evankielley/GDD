@@ -19,7 +19,7 @@ year = 2015
 tbase = 10; tupper = 30
 
 def get_dataset(city,year):
-"""This function downloads climate data for a particular city and year then calculates the gdd and stores it in a dataframe."""
+    """This function downloads climate data for a particular city and year then calculates the gdd and stores it in a dataframe."""
     df = download_data(city,year)
     min_temp = df['Min Temp (°C)']
     max_temp = df['Max Temp (°C)']
@@ -28,7 +28,7 @@ def get_dataset(city,year):
     return ColumnDataSource(data=df)
 
 def make_plot(source):
-"""This function takes data from a bokeh ColumnDataSource and makes a simple line plot."""
+    """This function takes data from a bokeh ColumnDataSource and makes a simple line plot."""
     plot = figure(plot_width=800,tools="",toolbar_location=None)
     plot.line('index','GDD',source=source)
     plot.title.text = "Growing Degree Days for Charlottetown"
@@ -40,7 +40,7 @@ def make_plot(source):
     return plot
 
 def update_plot(attrname, old, new):
-"""This function updates the bokeh plot every time the user selects a new city from the list of available cities."""
+    """This function updates the bokeh plot every time the user selects a new city from the list of available cities."""
     city = city_select.value
     plot.title.text = "Growing Degree Days for " + city
     src = get_dataset(city,year)
