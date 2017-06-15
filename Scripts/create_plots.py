@@ -80,6 +80,8 @@ def gdd_plot(names):
 def analyze_tbase():
     tbase = 10; tupper = 30
     tmin = 9; tmax = 12
+    city = names[0].split('_')[1]
+    year = names[0].split('_')[0]
     df = pd.read_csv(path +'/'+ names[0])
     min_temp = df['MinTemp']
     max_temp = df['MaxTemp']
@@ -94,7 +96,7 @@ def analyze_tbase():
     plt.figure(3)
     plt.xticks(days,months)
     plt.plot(data)
-    plt.title("Effect of Tbase on Growing Degree Days in Victoria")
+    plt.title("Effect of Tbase on Growing Degree Days in {} in {}".format(city,year))
     plt.xlabel("Year")
     plt.ylabel("Cumulative GDD")
     plt.legend(data.columns,loc='upper left')
@@ -105,8 +107,11 @@ def bokeh_plot_temp(fname):
 
     df = pd.read_csv(fname)
 
+    city = names[0].split('_')[1]
+    year = names[0].split('_')[0]
+
     hover = HoverTool(tooltips=[("index", "$index"),("Temp", "$y"),])
-    p = figure(title = "Victoria Temperature 2015", x_axis_type="datetime", tools=[hover, "pan,reset,resize,wheel_zoom"])
+    p = figure(title="{} Temperature {}".format(city,year), x_axis_type="datetime", tools=[hover, "pan,reset,resize,wheel_zoom"])
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'Temperature (°C)'
 
@@ -128,8 +133,11 @@ def bokeh_plot_gdd(fname):
 
     df = pd.read_csv(fname)
     
+    city = names[0].split('_')[1]
+    year = names[0].split('_')[0]
+
     hover = HoverTool(tooltips=[("Index", "$index"),("GDD", "$y"),])
-    p = figure(title = "Victoria GDD 2015", tools=[hover, "pan,reset,resize,wheel_zoom"])
+    p = figure(title = "{} GDD {}".format(city,year), tools=[hover, "pan,reset,resize,wheel_zoom"])
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'GDD'
 
