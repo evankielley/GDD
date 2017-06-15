@@ -15,27 +15,8 @@
 %\usepackage{bigints}
 \pagestyle{fancy}
 
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
 
-\newenvironment{proof}[1][Proof:]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{definition}[1][Definition:]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{example}[1][Example:]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{remark}[1][Remark:]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
-\newcommand{\qed}{\nobreak \ifvmode \relax \else
-      \ifdim\lastskip<1.5em \hskip-\lastskip
-      \hskip1.5em plus0em minus0.5em \fi \nobreak
-      \vrule height0.75em width0.5em depth0.25em\fi}
-
-\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}
-\newcommand*{\QEDB}{\hfill\ensuremath{\square}}
 
 \newcommand{\dif}{\mbox{d}}
 
@@ -56,10 +37,10 @@
 \begin{document}
 
 \maketitle
-\vspace{5pt}
+\vspace{20pt}%\vspace{5pt}
 \tableofcontents
-\vspace{35pt}
-
+%\vspace{35pt}
+\pagebreak
 \section{Motivation}
 We want to use Python and Bash scripts to analyse growing degree days (GDD) for 
 three different cities in Canada. Growing degree days are used to predict when a 
@@ -80,7 +61,7 @@ insect activity related to agriculture and forestry.
 
 \pagebreak
 
-
+\section{Program Structure}
 \subsection{Files and Scripts}
 \begin{description}
 \item[calc\_gdd.py]
@@ -131,6 +112,14 @@ Shows the accumulated GDD when the tbase is different from the default (Task 2.3
 \item bokeh\_plot\_temp(fname)  
 \item bokeh\_plot\_gdd(fname) \\
 Shows the interactive plots in html format for selected cities (Task 2.4).
+\item make\_map\_plots() $\to$ gddMapPlotNL.png, CanadaBloomingOfMaple.png\\
+Reads the csv files \emph{tempMin.csv, tempMax.csv, canadaMean.csv}, which can 
+be downloaded from \cite{gridTemp}, into pandas dataframe and extracts latitude, 
+longitude and calculates the gdd or blooming month for each grid point 
+(which is also stored in a variable called gdd).
+Then calls the function \emph{map\_plot(lat, lon, gdd,...)}. That function
+interpolates the given gdd for a finer grid on the map. Then creates a map plot
+showing just the interpolated data.
 \end{itemize} 
 \item Searches for files ending with \emph{gdd.csv}. 
 In each file, it reads the max and min temperatures columns and the cumulative 
@@ -159,7 +148,7 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 
 \pagebreak
 
-\subsection{Results}
+\section{Results}
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/CumulativeGDD.png} 
@@ -186,11 +175,17 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 
 For example, suppose you plant Red Maple in different areas on May 15th.
 The tree has a base temperature of 10${}^\circ$C and requires 27 GDD to reach maturity.
+See figrue \ref{gddMapCaMaple}.
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/CanadaBloomingOfMaple.png} 
 		\caption{\scriptsize Figure shows...}\label{gddMapCaMaple}		  
 	\end{figure}
+
+\pagebreak
+\begin{thebibliography}{1}
+\bibitem[1]{gridTemp}\url{http://www.cccsn.ec.gc.ca/?page=dd-gcm}
+\end{thebibliography}
 
 
 \end{document}
