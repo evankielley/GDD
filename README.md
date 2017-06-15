@@ -12,12 +12,13 @@ This project aimed to gain experience with computational workflow for a scientif
 Anaconda 4.4.0 or higher with: 
 1. Python 3.6 or higher
 2. mpl_toolkits.Basemap
+3. sklearn
 
 ## Installation Instructions 
 The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
 1. Clone this repo
 ```
-git clone <repo name>.git
+git clone https://github.com/evankielley/GDD.git
 ```
 2. Test the `calc_gdd` function
 ```
