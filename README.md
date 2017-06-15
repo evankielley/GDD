@@ -37,8 +37,9 @@ make all
   - CompareMaxMinTemp.png
   - CumulativeGDD.png
   - AnalyzeTbase.png
+  - gddMapPlotNL.png
+  - LinReg_Toronto_1960_2015.png
   - CanadaBloomingOfMaple.png
-  - LinReg.png
 * HTML
   - OptionalTask1GDDPlot.html
   - bokeh_gdd.html
@@ -91,7 +92,7 @@ plot_lin_reg(city,startYear, endYear,tbase,tupper)
 ```
 
 ## Final Task
-This map is showing the
+This Canada's map is showing which month the Maple Tree Bloom happens.
 ```
 make_map_plots()
 ```
