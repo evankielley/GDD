@@ -313,9 +313,9 @@ def bokeh_plot_gdd_years():
     for day in df.index:
         sorteddata = list(data1[day])
         sorteddata.sort()
-        Mean[i]=data1[day].mean()
-        percentile_5[i] = sorteddata[percentile5]; percentile_95[i] = sorteddata[percentile95]
-        percentile_25[i] = sorteddata[percentile25]; percentile_75[i] = sorteddata[percentile75]
+        Mean[int(i)]=data1[day].mean()
+        percentile_5[int(i)] = sorteddata[int(percentile5)]; percentile_95[int(i)] = sorteddata[int(percentile95)]
+        percentile_25[int(i)] = sorteddata[int(percentile25)]; percentile_75[int(i)] = sorteddata[int(percentile75)]
         i+=1
 
     source1=ColumnDataSource(dict(left=np.arange(0.5,366.5),top= percentile_95,right=np.arange(1.5,367.5),bottom=percentile_5))
