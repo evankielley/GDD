@@ -83,7 +83,7 @@ bokeh_plot_gdd(fname)
 ```
 * *Question 5*: By calling the script `bokeh_serve_gdd.py`, one can check the accumulated GDD for the 14 capital cities in Canada, including Montreal. 
 ```
-bokeh serve --show <script's name>
+bokeh serve --show bokeh_serve_gdd.py
 ```
 * *Question 6*: This plot shows the accumulation of GDD over a chosen period of years, in which the GDD is seen as a linear regression.
 ```
