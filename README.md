@@ -34,13 +34,13 @@ make all
 * Files
   - 2015_cityname_gdd.csv
 * Figures
-  - CompareMinMaxTemp.png
+  - CompareMaxMinTemp.png
   - CumulativeGDD.png
   - AnalyzeTbase.png
   - CanadaBloomingOfMaple.png
   - LinReg.png
 * HTML
-  - bokeh_gdd_years.html
+  - OptionalTask1GDDPlot.html
   - bokeh_gdd.html
   - bokeh_temp.html
 * Report
@@ -64,34 +64,36 @@ gdd_plot(names)
 
 ## Secondary Tasks
 For all plots generated in this task, the script `create_plots.py` is called, except for question 5.
-* *Question 1*: 
+* *Question 1*: This online plot shows the average GDD for Ottawa from 1950 to 2016.
 ```
 bokeh_plot_gdd_years()
 ```
-* *Question 2*: The input .csv files to solve this question are found in the Input folder (TempMax, TempMean, TempMin). The map of Canada shows the effective GDD of the country distributed by colours, in which as redder the area is, higher the GDD cumulation is.  
+* *Question 2*: The input .csv files to solve this question are found in the Input folder (TempMax, CanadaMean, TempMin). The map of Canada shows the effective GDD of the country distributed by colours, in which as redder the area is, higher the GDD cumulation is.  
 ```
-map_plot(lat, lon, gdd,year,month,bloom)
+make_map_plots()
 ```
-* *Question 3*: Calculating the GDD by using different base temperatures (T<sub>base</sub> = 8, 9, 11, 12) for **city's name** in 2015. This plot shows how the cumulative growing degree days change depending on the base temperature chosen. The default for the base temperature is 10, so if Tbase is increased by 12 for example, then a higher GDD curve is seen because more temperature is accumulated along the days.
+* *Question 3*: Calculating the GDD by using different base temperatures (T<sub>base</sub> = 8, 9, 11, 12) for **city's name** in 2015. This plot shows how the cumulative GDD changes depending on the base temperature chosen. The default for the base temperature is 10, so if T<sub>base</sub> is increased by 12 for example, then a higher GDD curve is seen because more temperature is accumulated along the days.
 ```
 analyze_tbase()
 ```
-* *Questions 4*: This bokeh plot shows interactively the T<sub>max</sub> and T<sub>min</sub> and the cumulative GDD for each capital city in Canada in 2015. To run the last two scripts mentioned, one should type in the bash shell 'bokeh serve --show <script's name>'.
-* Functions defined as:
+* *Questions 4*: This bokeh plot shows interactively the T<sub>max</sub> and T<sub>min</sub> and the cumulative GDD for each capital city in Canada in 2015. 
 ```
 bokeh_plot_temp(fname)
 bokeh_plot_gdd(fname)
 ```
 * *Question 5*: By calling the script `bokeh_serve_gdd.py`, one can check the accumulated GDD for the 14 capital cities in Canada, including Montreal. 
-* *Question 6*: 
 ```
-plot_lin_reg(city,startYear, endYear,tbase,tupper): 
+bokeh serve --show <script's name>
+```
+* *Question 6*: This plot shows the accumulation of GDD over a chosen period of years, in which the GDD is seen as a linear regression.
+```
+plot_lin_reg(city,startYear, endYear,tbase,tupper)
 ```
 
 ## Final Task
-
+This map is showing the
 ```
-map_plot(lat, lon, gdd,year,month,bloom)
+make_map_plots()
 ```
 
 ## LaTex Report
