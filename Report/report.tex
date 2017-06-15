@@ -105,14 +105,22 @@ insects do not grow any faster above that temperature.
 Shows the maximum and minimum temperatures for Montral, Ottawa and Victoria during the year of 2015 (Task 1.2).
 \item gdd\_plot(names)  $\to$ CumulativeGDD.png \\
 Shows the cumulative GDD for each city aforementioned in the year of 2015 (Task 1.4).
+\item bokeh_plot_gdd_years() $\to$OptionalTask1GDDPlot.html \\
+Shows the GDD stats for Ottawa. 
 \item map\_plot\_nl\_gdd()  $\to$  gddMapPlotNL.png \\
-Creates a colored map showing how the growing degree days affect Canada (Task 2.2).
+Creates a colored map showing how the growing degree days accumulation affects Canada (Task 2.2).
 \item analyze\_tbase()  $\to$ Analyze\_Tbase.png \\
-Shows the accumulated GDD when the tbase is different from the default (Task 2.3).
-\item bokeh\_plot\_temp(fname)  
-\item bokeh\_plot\_gdd(fname) \\
-Shows the interactive plots in html format for selected cities (Task 2.4).
-\item make\_map\_plots() $\to$ gddMapPlotNL.png, CanadaBloomingOfMaple.png\\
+Shows the accumulated GDD in Charllotetown when the tbase is different from the default (Task 2.3).
+\item bokeh\_plot\_temp(fname) $\to$ base_temp.html \\
+Shows interactively the minimum and maximum temperatures for Montreal in 2015 (Task 2.4.1).
+\item bokeh\_plot\_gdd(fname) $to$ base_gdd.html \\
+Shows the interactive plots in html format for selected cities (Task 2.4.2).
+\item bokeh serve --show bokeh_serve_gdd.py \\
+Shows the cumulative GDD for the 14 capital cities in Canada (Task 2.5).
+\item plot_lin_reg(city,startYear, endYear,tbase,tupper) $to$ LinReg_Toronto_1960_2015.png \\
+Shows the accumulated GDD for Toronto from 1960 to 2015.
+\item make\_map\_plots() $\to$ gddMapPlotNL.png, CanadaBloomingOfMaple.png \\
+Shows the blooming month of maple trees in Canada (Final Task).
 Reads the csv files \emph{tempMin.csv, tempMax.csv, canadaMean.csv}, which can 
 be downloaded from \cite{gridTemp}, into pandas dataframe and extracts latitude, 
 longitude and calculates the gdd or blooming month for each grid point 
@@ -158,7 +166,7 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/CompareMaxMinTemp.png} 
-		\caption{\scriptsize Shows the min and max temperature for three selected cities.}\label{MinMaxplot}		  
+		\caption{\scriptsize Shows the min and max temperatures for three selected cities.}\label{MinMaxplot}		  
 	\end{figure}
 
 	\begin{figure}[!htbp]
