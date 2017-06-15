@@ -16,6 +16,8 @@ report.pdf: plot
 	@mv report.pdf $(OUTPUT)
 	@printf "\nRemove remaining report files...\n"
 	@rm -rf report.*
+	@printf "\nRemove csv input files...\n"
+	@rm -rf ./Input/*.csv
 
 plot: gdd
 	@printf "\nMaking plots...\n"
