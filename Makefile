@@ -11,8 +11,11 @@ all: report.pdf
 report.pdf: plot
 	@printf "\nMaking LaTeX report...\n"
 	@pdflatex -interaction=batchmode $(REPORT)report.tex
-	@printf "\nMoving report output to output folder...\n"
-	@mv report.* $(OUTPUT)
+	@pdflatex -interaction=batchmode $(REPORT)report.tex
+	@printf "\nMoving report pdf to output folder...\n"
+	@mv report.pdf $(OUTPUT)
+	@printf "\nRemove remaining report files...\n"
+	@rm -rf report.*
 
 plot: gdd
 	@printf "\nMaking plots...\n"
