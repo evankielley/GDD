@@ -61,7 +61,7 @@ max_min_plot(names)
 gdd_plot(names)
 ```
 * The plot below is showing the accumulated GDD vs time for selected cities: 
-![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Output/CumulativeGDD.png?token=Abv3GRtFi3qHnLJFDwGDdtJajOOyqtUZks5ZSBtRwA%3D%3D)
+![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Presentation/CumulativeGDD.png)
 
 ## Secondary Tasks
 For all plots generated in this task, the script `create_plots.py` is called, except for question 5.
