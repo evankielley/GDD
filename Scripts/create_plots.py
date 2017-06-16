@@ -12,6 +12,10 @@ from bokeh.plotting import figure, output_file, save
 from bokeh.models import HoverTool, BoxSelectTool,ColumnDataSource,DataRange1d,Select
 
 def main():
+    """This main function can be run with your choice of plot -- the user can comment and uncomment at will."""
+
+    ### Static Inputs #################################################
+
     global path, names, days, months
     
     names=[]
@@ -21,9 +25,12 @@ def main():
         if file.endswith("gdd.csv"):
             names.append(file)
     
-    fname = path + "/" + names[0]
     days = [0,30,58,89,119,150,180,211,242,272,303,333]
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+    ###################################################################
+
+    ### Plot Function Calls ###########################################
 
     max_min_plot(names)
 
@@ -31,23 +38,25 @@ def main():
     
     bokeh_plot_gdd_years('Ottawa',1950,2016,10,30)
     
-    make_map_plots()
+    make_map_plots()  # has an issue with some python distributions
     
     analyze_tbase('Victoria',2015,6,15,10,30)
     
-    bokeh_plot_temp(fname)
+    bokeh_plot_temp('Victoria',2015)
     
-    bokeh_plot_gdd(fname)
+    bokeh_plot_gdd('Victoria',2015,10,30)
     
     plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 
+    ###################################################################
 
 def max_min_plot(names):
+    """This function plots daily max/min temperatures for data on the local machine."""
     plt.figure(1)
     plt.subplot(111)
     labels=[]
     n=len(names)
-    for fileName in names:                         # make the min and max graph for cities in the list
+    for fileName in names: 
         i = names.index(fileName) 
         plotData=pd.read_csv(path +'/'+ fileName)
         ax=plt.figure(1,figsize=(5,n*15))
@@ -57,10 +66,8 @@ def max_min_plot(names):
         plt.grid()
         plt.plot(plotData['MinTemp'],'b')
         plt.text(405,plotData['MaxTemp'].mean(),fileName.split('_')[1],rotation=-90)
-#        plt.ylabel(fileName.split('_')[1])
         plt.xticks(days,months)
-#        plt.legend(loc='upper right',prop={'size':6})
-        if fileName is names[int(n/2)]:             # put y label in the middle of y axes
+        if fileName is names[int(n/2)]:
             plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
@@ -68,6 +75,7 @@ def max_min_plot(names):
     plt.savefig('./Output/CompareMaxMinTemp.png')
 
 def gdd_plot(names):
+    """This function plots daily growing degree data (GDD) for data on the local machine."""
     labels = []
     plt.figure(2)   
     for fileName in names:
@@ -85,17 +93,20 @@ def gdd_plot(names):
 
 
 def analyze_tbase(city,year,tmin,tmax,tbase,tupper):
-    df = pd.read_csv(path +'/'+ names[0])
-    min_temp = df['MinTemp']
-    max_temp = df['MaxTemp']
-    gdd = calc_gdd(list(min_temp), list(max_temp), tmin-1, tupper)
+    """This function analyzes the effect of changing Tbase on GDD by using a range of different Tbase values."""
+    df = download_data(city, year)
+    minT = df['Min Temp (°C)']
+    maxT = df['Max Temp (°C)']
+    gdd = calc_gdd(list(minT),list(maxT),tbase,tupper)
     col_name = "Tbase: {}".format(tmin-1)
     data = pd.DataFrame({col_name: gdd[1]})
+
     for tbase in range(tmin,tmax):
-        gdd = calc_gdd(list(min_temp), list(max_temp), tbase, tupper)
+        gdd = calc_gdd(list(minT), list(maxT), tbase, tupper)
         col_name = "Tbase: {}".format(tbase)
         df = pd.DataFrame({col_name: gdd[1]})
         data = pd.concat([data, df], axis=1, join='inner')
+
     plt.figure(3)
     plt.xticks(days,months)
     plt.plot(data)
@@ -106,12 +117,11 @@ def analyze_tbase(city,year,tmin,tmax,tbase,tupper):
     plt.savefig('./Output/AnalyzeTbase.png')
 
    
-def bokeh_plot_temp(fname):
-
-    df = pd.read_csv(fname)
-
-    city = names[0].split('_')[1]
-    year = names[0].split('_')[0]
+def bokeh_plot_temp(city,year):
+    """This function download data from the web and creates an interactive bokeh plot with min/max temperature data. """
+    df = download_data(city, year)
+    minT = df['Min Temp (°C)']
+    maxT = df['Max Temp (°C)']
 
     hover = HoverTool(tooltips=[("index", "$index"),("Temp", "$y"),])
     p = figure(title="{} Temperature {}".format(city,year), x_axis_type="datetime", tools=[hover, "pan,reset,resize,wheel_zoom"])
@@ -120,11 +130,11 @@ def bokeh_plot_temp(fname):
 
     xdata = df.index.values
 
-    p.line(xdata, df["MaxTemp"], legend="Max Temp", line_color = "red")
-    p.circle(xdata, df["MaxTemp"], legend="Max Temp", fill_color="red", line_color="red", size=6)
+    p.line(xdata, maxT, legend="Max Temp", line_color = "red")
+    p.circle(xdata, maxT, legend="Max Temp", fill_color="red", line_color="red", size=6)
 
-    p.line(xdata, df["MinTemp"], legend="Min Temp")
-    p.circle(xdata, df["MinTemp"], legend="Min Temp", fill_color="white", size=8)
+    p.line(xdata, minT, legend="Min Temp")
+    p.circle(xdata, minT, legend="Min Temp", fill_color="white", size=8)
 
     new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_temp.html"
     output_file(new_fname, title="Min_Max plot")
@@ -132,22 +142,23 @@ def bokeh_plot_temp(fname):
     save(p)
 
 
-def bokeh_plot_gdd(fname):    
-
-    df = pd.read_csv(fname)
+def bokeh_plot_gdd(city,year,tbase,tupper):    
+    """This function download data from the web and creates an interactive bokeh plot with daily GDD data. """
     
-    city = names[0].split('_')[1]
-    year = names[0].split('_')[0]
+    df = download_data(city, year)
+    minT = df['Min Temp (°C)']
+    maxT = df['Max Temp (°C)']
+    gdd = calc_gdd(list(minT),list(maxT),tbase,tupper)
 
     hover = HoverTool(tooltips=[("Index", "$index"),("GDD", "$y"),])
     p = figure(title = "{} GDD {}".format(city,year), tools=[hover, "pan,reset,resize,wheel_zoom"])
     p.xaxis.axis_label = 'Date'
     p.yaxis.axis_label = 'GDD'
 
-    xdata = np.arange(0, len(df["GDD"]))
+    xdata = df.index.values
 
-    p.line(xdata, df["GDD"], legend="GDD", line_color = "red")
-    p.circle(xdata, df["GDD"], legend="GDD", fill_color="red", line_color="red", size=6)
+    p.line(xdata, gdd[1], legend="GDD", line_color = "red")
+    p.circle(xdata, gdd[1], legend="GDD", fill_color="red", line_color="red", size=6)
 
     new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "bokeh_gdd.html"
     output_file(new_fname, title="GDD plot")
@@ -156,6 +167,7 @@ def bokeh_plot_gdd(fname):
 
 
 def make_map_plots():
+    """This function reads a large array of spatial temperature data and calls map_plot()."""
     # read data from csv file
     dataMin=pd.read_csv('./Input/tempMin.csv',skiprows=7)
     dataMax=pd.read_csv('./Input/tempMax.csv',skiprows=7)
@@ -199,6 +211,7 @@ def make_map_plots():
 
 
 def map_plot(lat, lon, gdd,year,month,bloom):
+    """This function takes spatial and GDD data and plots the data on a map according to a specific bloom value. """
     plt.figure(4)
 
     # plot map
@@ -226,8 +239,6 @@ def map_plot(lat, lon, gdd,year,month,bloom):
         
     # Transform points into Map's projection
     x,y = map(lon, lat)
-    # Color the transformed points!
-    #sc = plt.scatter(x,y, c=gdd, vmin=min(gdd), vmax =max(gdd), cmap=jet) # ,s=700, edgecolors='none'
 
     # Interpolate gdd data points
     numIndexes = 500
@@ -254,7 +265,8 @@ def map_plot(lat, lon, gdd,year,month,bloom):
 
 
 
-def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the city and interval for investigation can change
+def plot_lin_reg(city,startYear, endYear,tbase,tupper): 
+    """This function reads data from the web for a particular city and range of years and plots a linear regression. """
     
     plt.figure(5)    
 
@@ -265,11 +277,11 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
         minT = data['Min Temp (°C)']
         maxT = data['Max Temp (°C)']
         gdd_day, gdd_arr = calc_gdd(list(minT),list(maxT),tbase,tupper)
-        total_gdd = gdd_arr[-1]                                       # last day of the year gdd is identifier for all year
+        total_gdd = gdd_arr[-1]                        
         df = df.append({'year': int(year), 'gdd': total_gdd}, ignore_index=True)
         
     x = df.year.values; y = df.gdd.values
-    x = x.reshape(x.size,1); y = y.reshape(y.size,1)                 # It will put the data in one dimentional arrays to plot
+    x = x.reshape(x.size,1); y = y.reshape(y.size,1)  
 
     regr = linear_model.LinearRegression()
     regr.fit(x, y)
@@ -286,7 +298,7 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):         # name of the ci
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
 
 def bokeh_plot_gdd_years(city, startYear, endYear, tbase, tupper):
-
+    """This function creates an interactive bokeh plot that shows statistics on GDD on one city over a range of years. """
 
     for year in range(startYear, endYear+1):
         data = download_data(city, year)
@@ -344,7 +356,6 @@ def bokeh_plot_gdd_years(city, startYear, endYear, tbase, tupper):
     new_fname =  os.path.dirname(os.path.realpath(__file__)) + "/../Output/" + "OptionalTask1GDDPlot.html"
     output_file(new_fname, title="OptionalTask1GDDPlot")
     save(plot)
-
 
 if __name__ == '__main__':
     main()
