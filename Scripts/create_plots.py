@@ -70,7 +70,7 @@ def max_min_plot(names):
         if fileName is names[int(n/2)]:
             plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
-    plt.xlabel('Days')
+    plt.xlabel('Month')
     plt.suptitle('2015 Max and Min Temperature')
     plt.savefig('./Output/CompareMaxMinTemp.png')
 
