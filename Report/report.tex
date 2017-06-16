@@ -67,12 +67,6 @@ chosen to develop the minimum tasks were Montreal, Victoria and Ottawa.
 \section{Program Structure}
 \subsection{Files and Scripts}
 \begin{description}
-\item[calc\_gdd.py]
-\item Input: min\_temp\_vect, max\_temp\_vect, tbase, tupper
-\item Output: (res\_day, res)
-\item Calculates the gdd. %TODO
-
-
 \item[gdd.py]
 \item Input: tbase, tupper, input\_folder (optional)
 \item Output: year\_cityName\_tbase\_tupper\_gdd.csv
@@ -82,9 +76,9 @@ files should have the columns: Date/Time, Min Temp(${}^\circ$C), Max Temp(${}^\c
 Then the columns of each file will be copied into a new csv file with the name
 \emph{year\_cityName\_tbase\_tupper\_gdd.csv}, where cityName is extracted from the
 current file name. That file will be saved in the folder \emph{Output}.
-In this file, a new column called GDD will be added. 
-The value of
-cell $n$ is calculated with the formula:
+In this file, a new column called GDD will be added. The GDD values of that column 
+will be calculated by calling \emph{calc\_gdd.py}.
+Then the value of cell $n$ is calculated with the formula:
 $$
 \sum_{i=1}^n \big( \tfrac{\text{tmax}_i+\text{tmin}_i}{2}-\text{tbase}\big)
 $$
@@ -101,6 +95,8 @@ insects do not grow any faster above that temperature.
 %\item What it does... maybe adding code
 
 \item[bokeh\_serve\_gdd.py]
+\item Can be called by the comand line with \emph{$--$ show bokeh\_serve\_gdd.py} .
+Shows the cumulative GDD for the 14 capital cities in Canada (Task 2.5).
 
 \item[create\_plots.py]
 \item Output: CumulativeGDD.png, CompareMaxMinTemp.png, AnalyzeTbase.png, gddMapPlotNL.png
@@ -128,9 +124,6 @@ Shows interactively the minimum and maximum temperatures for Victoria in 2015 (T
 \item bokeh\_plot\_gdd(fname) $\to$ base\_gdd.html \\
 Shows the interactive plots in html format for Victoria in 2015 (Task 2.4.2).
 
-\item bokeh serve $--$ show bokeh\_serve\_gdd.py \\
-Shows the cumulative GDD for the 14 capital cities in Canada (Task 2.5).
-
 \item plot\_lin\_reg(city,startYear, endYear,tbase,tupper) $\to$ LinReg\_Toronto\_1960\_2015.png \\
 Shows the accumulated GDD for Toronto from 1960 to 2015.
 
@@ -144,10 +137,7 @@ Then calls the function \emph{map\_plot(lat, lon, gdd,...)}. That function
 interpolates the given gdd for a finer grid on the map. Then creates a map plot
 showing just the interpolated data.
 \end{itemize} 
-\item Searches for files ending with \emph{gdd.csv}. 
-In each file, it reads the max and min temperatures columns and the cumulative 
-GDD to create the subplots and/or maps required to complete the tasks. 
-Finally saves the created figures as PNG-files in the \emph{Plot} folder.
+
 
 \end{description}
 \subsection{Process flow}
@@ -158,7 +148,7 @@ By executing the \emph{Makefile}, we create a folder called \emph{Output} and ru
 the python script \emph{gdd.py} with the arguments tbase=10, tupper=30 and the path
  \emph{./Input/}. This produces 3 csv files, because we have 3 files of the 
 format \emph{year\_cityName\_.csv} in the folder \emph{Input}.
-Next the script \emph{create\_plots.py} is called by Makefile and produces 2 PNG-
+Next the script \emph{create\_plots.py} is called by Makefile and produces  PNG- and html
 files. Finally Makefile creates the file \emph{report.pdf} by compiling the 
 \emph{report.tex} file.
 
@@ -171,6 +161,24 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 
 \pagebreak
 \section{Results}
+Below are the the plots for the different tasks. 
+The following table shows which figure belongs to which task:
+\begin{center}
+\begin{tabular}{l l}
+Figure & Task\\
+\hline
+Figure \ref{MinMaxplot} & Task 1.2\\
+Figure \ref{GDDplot}    & Task 1.4\\
+Figure \ref{GDDstats}  & Task 2.1\\
+Figure \ref{gddMapNl} & Task 2.2\\
+Figure \ref{analyzeTbase} & Task 2.3\\
+Figure \ref{bokehTempMontreal} & Task 2.4\\
+Figure \ref{bokehAccGDD} & Task 2.4\\
+Figure \ref{BokehServer} & Task 2.5\\
+Figure \ref{LinReg} & Task 2.6\\
+Figure \ref{gddMapCaMaple} & Final Task
+\end{tabular}
+\end{center}
 
 	\begin{figure}[!htbp]
 		\centering
@@ -191,7 +199,7 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Report/GDDstats.png} 
-		\caption{\scriptsize Shows the average GDD for Ottawa from 1960 to 2016.}\label{GDDplot}		  
+		\caption{\scriptsize Shows the average GDD for Ottawa from 1960 to 2016.}\label{GDDstats}		  
 	\end{figure}
 
 
@@ -241,9 +249,9 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 		1600 showing how the climate change is warming and affecting the planet.}\label{LinReg}		  
 	\end{figure}
 
-For example, suppose you plant Red Maple in different areas on May 15th.
-The tree has a base temperature of 10${}^\circ$C and requires 27 GDD to reach maturity.
-See figrue \ref{gddMapCaMaple}.
+%For example, suppose you plant Red Maple in different areas on May 15th.
+%The tree has a base temperature of 10${}^\circ$C and requires 27 GDD to reach maturity.
+%See figrue \ref{gddMapCaMaple}.
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/CanadaBloomingOfMaple.png} 
