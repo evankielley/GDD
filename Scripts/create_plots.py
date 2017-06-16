@@ -71,7 +71,7 @@ def max_min_plot(names):
             plt.ylabel('Temperature ['+u'\xb0'+'C]',size=15)
     plt.xticks(days,months)
     plt.xlabel('Days')
-    plt.suptitle('Max and Min Temperature')
+    plt.suptitle('2015 Max and Min Temperature')
     plt.savefig('./Output/CompareMaxMinTemp.png')
 
 def gdd_plot(names):
@@ -294,7 +294,7 @@ def plot_lin_reg(city,startYear, endYear,tbase,tupper):
     ax.text(0.05, 0.95, text,backgroundcolor='grey',verticalalignment='top', horizontalalignment='left',transform=ax.transAxes,color='black', fontsize=15)
     ax.scatter(x, y,  color='red')
     ax.plot(x, regr.predict(x), color='blue', linewidth=3)
-    ax.set_title('Annual Total Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
+    ax.set_title('Annual Growing Degree Days in {} from {} to {}'.format(city,startYear,endYear))
     ax.set_xlabel('Year')
     ax.set_ylabel('Total GDD')
     plt.savefig('./Output/LinReg_{}_{}_{}.png'.format(city,startYear,endYear))
