@@ -186,8 +186,10 @@ def make_map_plots():
 
     gdd=[]
     for index, row in tmin.iterrows():    
-        gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])   
-
+        #gdd.append(calc_gdd(tmin.loc[index],tmax.loc[index],10,30)[1][-1])
+        x=0.5*(tmin.loc[index]+tmax.loc[index])
+        gdd.append(sum([30*max(0,y-10) for y in x]))
+   
     map_plot(list(latNl), list(lonNl), gdd,year,month,False) # map plot NL
 
     gdd=[]
