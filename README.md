@@ -73,7 +73,7 @@ bokeh_plot_gdd_years('Ottawa',1950,2016,10,30)
 ```
 make_map_plots()
 ```
-* *Question 3*: Calculating the GDD by using different base temperatures (T<sub>base</sub> = 8, 9, 11, 12) for Victoria in 2015. This plot shows how the cumulative GDD changes depending on the base temperature chosen. The default for the base temperature is 10, so if T<sub>base</sub> is increased by 11 for example, then a higher GDD curve is seen because more temperature is accumulated along the days.
+* *Question 3*: Calculating the GDD by using different base temperatures (T<sub>base</sub> = from 5 to 14) for Victoria in 2015. This plot shows how the cumulative GDD changes depending on the base temperature chosen. The default for the base temperature is 10, so if T<sub>base</sub> is increased by 11 for example, then a higher GDD curve is seen because more temperature is accumulated along the days.
 ```
 analyze_tbase('Victoria',2015,6,15,10,30)
 ```
