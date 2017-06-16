@@ -57,6 +57,9 @@ suitable for production of various crops, particularly corn, and to evaluate
 areas agriculturally suitable for new or non-native plants. Other applications
 of degree-days include the prediction of bloom date, tree fruit development, and
 insect activity related to agriculture and forestry.
+\\The aim of this project was to gain experience in computational workflow for a
+scientific problem involving GDD calculations and plots creation. The three cities 
+chosen to develop the minimum tasks were Montreal, Victoria and Ottawa.
 
 
 \pagebreak
@@ -73,13 +76,13 @@ insect activity related to agriculture and forestry.
 \item[gdd.py]
 \item Input: tbase, tupper, input\_folder (optional)
 \item Output: year\_cityName\_tbase\_tupper\_gdd.csv
-\item Searches for files that ends with \emph{temp.csv}. We expect, that these
-files have the columns: Date/Time, Min Temp(${}^\circ$C), Max Temp(${}^\circ$C).
+\item Searches for files that ends with \emph{temp.csv}. These
+files should have the columns: Date/Time, Min Temp(${}^\circ$C), Max Temp(${}^\circ$C).
 
-Then these columns of each file will be copied into a new csv file with the name
-\emph{year\_cityName\_tbase\_tupper\_gdd.csv}, where cityName is extracted of the
+Then the columns of each file will be copied into a new csv file with the name
+\emph{year\_cityName\_tbase\_tupper\_gdd.csv}, where cityName is extracted from the
 current file name. That file will be saved in the folder \emph{Output}.
-After that, a column called GDD will be added. 
+In this file, a new column called GDD will be added. 
 The value of
 cell $n$ is calculated with the formula:
 $$
@@ -88,9 +91,9 @@ $$
 If $\text{tmax}_i$ or $\text{tmax}_i$ is bigger than tupper it is set to tupper,
  also if $\text{tmin}_i$ or $\text{tmax}_i$ 
 is  smaller than tbase then it is set to tbase.
-\\The base temperature,Tbase, is that temperature below which plant growth is zero.
- GDUs are accumulated by adding each day's GDs contribution as the season progresses.
-\\ The maximum temperature,Tupp, is usually capped at 30 ${}^\circ$C because most plants and 
+\\The base temperature, Tbase, is that temperature below which plant growth is zero.
+ Growing Degree Units (GDUs) are accumulated by adding each day's GDs contribution as the season progresses.
+\\ The maximum temperature, Tupp, is usually capped at 30 ${}^\circ$C because most plants and 
 insects do not grow any faster above that temperature.
 %\item[gdd.sh]
 %\item Input: temperatures.csv, tbase, tupper
@@ -105,16 +108,16 @@ insects do not grow any faster above that temperature.
 
 \begin{itemize}
 \item max\_min\_plot(names) $\to$ CompareMaxMinTemp.png \\
-Shows the maximum and minimum temperatures for Montral, Ottawa and Victoria during the year of 2015 (Task 1.2).
+Shows the maximum and minimum temperatures for Monteral, Ottawa and Victoria during the year of 2015 (Task 1.2).
 
 \item gdd\_plot(names)  $\to$ CumulativeGDD.png \\
-Shows the cumulative GDD for each city aforementioned in the year of 2015 (Task 1.4).
+Shows the cumulative GDD for Montreal, Ottawa and Victoria in the year of 2015 (Task 1.4).
 
 \item bokeh\_plot\_gdd\_years() $\to$ OptionalTask1GDDPlot.html \\
 Shows the GDD stats for Ottawa. 
 
 \item map\_plot\_nl\_gdd()  $\to$  gddMapPlotNL.png \\
-Creates a colored map showing how the growing degree days accumulation affects Canada (Task 2.2).
+Creates a colored map showing how the growing degree days accumulation affects Newfoundland (Task 2.2).
 
 \item analyze\_tbase()  $\to$ Analyze\_Tbase.png \\
 Shows the accumulated GDD in Charllotetown when the tbase is different from the default (Task 2.3).
@@ -192,7 +195,11 @@ files. Finally Makefile creates the file \emph{report.pdf} by compiling the
 	\begin{figure}[!htbp]
 		\centering
 		\includegraphics[width=0.9\textwidth]{./Output/gddMapPlotNL.png} 
-		\caption{\scriptsize Shows an interpolated map plot of gdd data.}\label{gddMapNl}		  
+		\caption{\scriptsize Shows an interpolated map plot of gdd data.
+		Creates a colored map showing how the growing degree days accumulation affects Newfoundland, 
+		in which can be seen that the cost areas of the island are in colder colors when compared to
+		the main island probably because of the effect caused by ocean air.
+		}\label{gddMapNl}		  
 	\end{figure}
 
 	\begin{figure}[!htbp]
