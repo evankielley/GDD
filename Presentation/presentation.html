@@ -21,23 +21,193 @@
 
 class: center, middle
 
+<<<<<<< HEAD
 # Growing Degree Days in Canada - Data Project
       insert a figure!?
+=======
+# Growing Degree Days in Canada - Project
+
+
+      Aswini Naveen, Caroline Chagas, Evan Kielley, Oleksandr Abramov, 
+      Razyeh Behbahani, Rüdiger Brecht and Zia Rahman.
+      
+      June 16th, 2017
 
 ---
 
 # Contents
 
+1. Introduction      
+2. ReadMe      
+3. Calculate GDD
+4. Minimum and Maximum Temperatures
+5. Cumulative GDD
+6. GDD stats (Task 2.1)
+7. GDD Map NL (Task 2.2)
+8. GDD changes with Tbase (Task 2.3)     
+9. Bokeh standalone temperature plot (Task 2.4.1)
+10. Bokeh standalone GDD plot (Task 2.4.2)
+11. Bokeh server plot (Task 2.5)
+12. Linear regression (Task 2.6)
+13. Maple Tree bloom (Final Task)
+
+
+---
+##Introduction
+<img src="https://evankielley.github.io/GDD/Presentation/diagram_workflow.png#1" height="550" >
+
+---
+##ReadMe 
+<iframe src="https://evankielley.github.io/GDD" width="90%" height="500" name="SELFHTML_in_a_box"> </iframe>            
+    
+---
+## Download data     
+
+```python
+def download_data(city, year,save=False):
+
+    """This function downloads data from weather.gc.ca for a particular city in a particular year."""
+    stationID = get_station_id(city,year)
+    month = 1; day = 1; timeframe = 2
+    url = "http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&\
+        stationID={}&\
+        Year={}&\
+        Month={}&\
+        Day={}&\
+        timeframe={}&\
+        submit=Download+Data".format(stationID,year,month,day,timeframe)
+    
+    data = pd.read_csv(url,skiprows=25)  # 15 for hourly
+    if save:
+        data.to_csv("./Input/"+str(year)+"_"+city+"_temp.csv")
+    else:
+        return data
+```
+
+---
+## Calculate GDD
+
+```python
+def calc_gdd(min_temp_vect, max_temp_vect, tbase, tupper):
+    res = [None]*len(min_temp_vect)
+    res_day = [None]*len(min_temp_vect)
+
+    for i in range(len(min_temp_vect)):
+
+       # Put min_temp to the range (tbase, tupper)
+       min_temp_val = min(tupper, max(tbase, min_temp_vect[i]))
+       max_temp_val = min(tupper, max(tbase, max_temp_vect[i]))
+ 
+       res_day[i] = (min_temp_val+max_temp_val)/2 - tbase
+
+       # calculating cumulative GDD
+       if(i>0):
+           res[i] = res[i-1] +res_day[i]
+       else:
+           res[i] = res_day[i]
+       return (res_day, res)
+```
+
+---
+##Minimum and Maximum Temperatures  
+<img src="https://evankielley.github.io/GDD/Presentation/CompareMaxMinTemp.png#1" width="700">
+      
+---
+##Cumulative GDD
+<img src="https://evankielley.github.io/GDD/Presentation/CumulativeGDD.png#1" width="700">
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
+
+---
+##GDD stats (Task 2.1)
+
+<<<<<<< HEAD
+# Contents
+
 1. Introduction
 2. Deep-dive
 3. Results
+=======
+ <iframe src="https://evankielley.github.io/GDD/Presentation/OptionalTask1GDDPlot.html#1" width="90%" height="550" name="SELFHTML_in_a_box"> </iframe>      
+
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 
 ---
+##GDD Map NL (Task 2.2)
+<img src="https://evankielley.github.io/GDD/Presentation/gddMapPlotNL.png#1" width="700">
+ 
+---
+##GDD changes with Tbase (Task 2.3)
+<img src="https://evankielley.github.io/GDD/Presentation/AnalyzeTbase.png#1" width="700">
+      
+---
+##Bokeh standalone temperature plot (Task 2.4.1)
 
+ <iframe src="https://evankielley.github.io/GDD/Presentation/bokeh_temp.html#1" width="90%" height="500" name="SELFHTML_in_a_box"> </iframe>      
+
+---
+##Bokeh standalone GDD plot (Task 2.4.2)
+
+ <iframe src="https://evankielley.github.io/GDD/Presentation/bokeh_gdd.html#1" width="90%" height="500" name="SELFHTML_in_a_box"> </iframe>      
+
+<<<<<<< HEAD
 # Comparing Minimum and Maximum Temperatures
 ![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Plots/CumulativeGDD.png?token=Abv3GZmtwEr45qpa33ym195DDh-n8cbPks5ZPuFtwA%3D%3D)
 
 ---
+=======
+---
+##Bokeh server plot (Task 2.5)
+```bash
+bokeh serve --show bokeh_serve_gdd.py 
+```
+<img src="https://evankielley.github.io/GDD/Presentation/bokeh_serve_screenshot.png" height="450">
+
+---
+##Linear regression (Task 2.6)
+<img src="https://evankielley.github.io/GDD/Presentation/LinReg_Toronto_1960_2015.png" width="700">
+
+---
+##Maple Tree bloom (Final Task)
+<img src="https://evankielley.github.io/GDD/Presentation/CanadaBloomingOfMaple.png" width="700">
+
+---
+##Conclusion
+
+We learned:
+* How to work in a group
+* Delegate tasks
+* Merge tasks/code from different collaborators
+* Use version control
+
+
+Thank you for your attention :)
+---
+##Credits
+| Name      | | Contribution |
+|:---        |---|---:|
+| All       |   |   Task 1.5, Task 1.7|
+| Aswini    |   |   Task 2.1|
+| Caroline  |   |   Task 1.6, Task 1.10, Task 2.3|
+| Evan      |   |     Task 1.1, Task 1.8, Task 2.4, Task 2.5, Task 2.6|
+| Oleksandr | | Task 1.3, Task 1.9|
+| Razyeh    | | Task 1.2, Task 1.6, Task 2.6|
+| Rüdiger   | | Task 1.4, Task 1.6, Task 2.2, Task 3 |
+| Zia       | | Task 2.3|
+
+      
+<img src="https://lh3.googleusercontent.com/j_w0R6uFRzAIdMD_5KZu8qz-9uNq_F426pV4lbNIibJWHVs0trAX3TRx9fkLr-dpQFCpomwsPJhCjlh2at1Ctg6YLF2kHdzpkDz_ZH-8pJ7Qk7SYVJYpAJ6bePCtCXxsyzXwguTxIkB8rOYwQ0rqtZ5pJQ1c9yYbyN3uto-ouDfG7zVtamavNtsqbZzfqvwK4yIfKzhI9VHlkqTjqiSBdsaAOo0bTIJJpZIr4VXcVZrkWuLIH5M82QlkUrGFnL0lE31ZRMMV3iYwmOrxLEkh0oED-Sie9MSXsNEHHIjgwiOUBHrOh9SyYzIZam9JaQcXhnIy1rOhuotPaTlhvfX-wqHL5eRctzJcN_QLwCohvGQEdS_kxIkk64OtL6pmXXNxyCfJ72bWaL-kncTyWMBO4046Zn9-SSCKQ8fJ1V0xKstZuqAMpNokE7bXziOsL3I0acaw757ooS01rWgLEOYLm6cIJ3KRiUysPmzGbuz-PYSmHED9C5KGPwKlMSJmOH2pRpvtZHvU52g0LB2GlKmqiuXUvGqb7RFjaobea5MO0yead8DozFHiXy9SXDkdPOFbVmdG4tXkrGTl0WXacA34O6uZDnvERZbEje41wEJ-ciuDg4SA7EZzcux1PLK_HkMrPXgimwvFp_Q-JORkfAPpEM0cZjP4whebnsHdLbFV2A=w867-h641-no" width="500">
+      
+            
+---
+##References
+For map plots:
+
+<a href="http://www.cccsn.ec.gc.ca/?page=dd-gcm"> http://www.cccsn.ec.gc.ca/?page=dd-gcm </a>
+
+For input data:
+
+<a href="http://climate.weather.gc.ca"> http://climate.weather.gc.ca  </a>
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 
 # Cumulative GDD in Montreal, Victoria and Ottawa
       
@@ -49,3 +219,5 @@ class: center, middle
     </script>
   </body>
 </html>
+
+

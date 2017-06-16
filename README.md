@@ -15,7 +15,11 @@ Anaconda 4.4.0 or higher with:
 3. sklearn
 
 ## Installation Instructions 
+<<<<<<< HEAD
 The entire workflow of this project is done by calling `make all`, which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
+=======
+The entire workflow of this project is done by calling 'make all', which runs the *Makefile* and all the scripts to generate the outputs required for this project. 
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 1. Clone this repo
 ```
 git clone https://github.com/evankielley/GDD.git
@@ -61,12 +65,17 @@ max_min_plot(names)
 gdd_plot(names)
 ```
 * The plot below is showing the accumulated GDD vs time for selected cities: 
+<<<<<<< HEAD
 ![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Presentation/CumulativeGDD.png)
+=======
+![alt text](https://raw.githubusercontent.com/evankielley/GDD/master/Output/CumulativeGDD.png?token=Abv3GRtFi3qHnLJFDwGDdtJajOOyqtUZks5ZSBtRwA%3D%3D)
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 
 ## Secondary Tasks
 For all plots generated in this task, the script `create_plots.py` is called, except for question 5.
 * *Question 1*: This online plot shows the average GDD for Ottawa from 1950 to 2016.
 ```
+<<<<<<< HEAD
 bokeh_plot_gdd_years('Ottawa',1950,2016,10,30)
 ```
 * *Question 2*: The input .csv files to solve this question are found in the Input folder (TempMax, CanadaMean, TempMin). The map of Newfoundland shows the effective GDD of the country distributed by colours, in which as redder the area is, higher the GDD cumulation is.  
@@ -81,6 +90,22 @@ analyze_tbase('Victoria',2015,6,15,10,30)
 ```
 bokeh_plot_temp('Victoria',2015)
 bokeh_plot_gdd('Victoria',2015,10,30)
+=======
+bokeh_plot_gdd_years()
+```
+* *Question 2*: The input .csv files to solve this question are found in the Input folder (TempMax, CanadaMean, TempMin). The map of Canada shows the effective GDD of the country distributed by colours, in which as redder the area is, higher the GDD cumulation is.  
+```
+make_map_plots()
+```
+* *Question 3*: Calculating the GDD by using different base temperatures (T<sub>base</sub> = 8, 9, 11, 12) for **city's name** in 2015. This plot shows how the cumulative GDD changes depending on the base temperature chosen. The default for the base temperature is 10, so if T<sub>base</sub> is increased by 12 for example, then a higher GDD curve is seen because more temperature is accumulated along the days.
+```
+analyze_tbase()
+```
+* *Questions 4*: This bokeh plot shows interactively the T<sub>max</sub> and T<sub>min</sub> and the cumulative GDD for each capital city in Canada in 2015. 
+```
+bokeh_plot_temp(fname)
+bokeh_plot_gdd(fname)
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 ```
 * *Question 5*: By calling the script `bokeh_serve_gdd.py`, one can check the accumulated GDD for the 14 capital cities in Canada, including Montreal. 
 ```
@@ -88,11 +113,19 @@ bokeh serve --show bokeh_serve_gdd.py
 ```
 * *Question 6*: This plot shows the accumulation of GDD over a chosen period of years, in which the GDD is seen as a linear regression.
 ```
+<<<<<<< HEAD
 plot_lin_reg('Toronto', 1960, 2015, 10, 30)
 ```
 
 ## Final Task
 This colored map is showing which month the Maple Tree Bloom happens in Canada. 
+=======
+plot_lin_reg(city,startYear, endYear,tbase,tupper)
+```
+
+## Final Task
+This Canada's map is showing which month the Maple Tree Bloom happens.
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 ```
 make_map_plots()
 ```
@@ -107,7 +140,11 @@ When running the script `test_gdd.py` one can test if the calculation for the GD
 To see our presentation online, please click [here](https://evankielley.github.io/GDD/Presentation/presentation.html#1).
 
 ## References
+<<<<<<< HEAD
 [1]. Growing degree-days: one equation, two interpretations http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1086&context=usdaarsfacpub 
+=======
+(1). Growing degree-days: one equation, two interpretations http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1086&context=usdaarsfacpub 
+>>>>>>> 4aecb77e7e9e6dbf8471dfc00fce38067ba906d2
 
 
 :octocat: Thank you.
